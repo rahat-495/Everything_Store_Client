@@ -24,7 +24,7 @@ const Navbar = () => {
             <div className="flex items-center gap-3 font-semibold">
                 {
                     linkLists.map((link) => (
-                        <Link href={link.href} className={`${location === link.href ? "underline underline-offset-4 font-bold" : ""}`}>{link.name}</Link>
+                        <Link href={link.href} key={link.href} className={`${location === link.href ? "underline underline-offset-4 font-bold" : ""}`}>{link.name}</Link>
                     ))
                 }
             </div>

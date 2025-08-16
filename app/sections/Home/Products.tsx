@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const Products = () => {
 
@@ -89,7 +90,7 @@ const Products = () => {
     ];
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center pt-12">
+        <div className="w-full min-h-screen flex flex-col items-center pt-12 mb-10">
             
             <h1 className="gro font-semibold text-3xl">Products</h1>
 
@@ -97,7 +98,7 @@ const Products = () => {
                 
                 {
                     products.map((product) => (
-                        <div className="card bg-base-100 p-3 border h-90 border-black/30 shadow-sm">
+                        <div key={product.id} className="card bg-base-100 p-3 border h-90 border-black/30 shadow-sm">
                     
                             <img
                             src={product.image}
@@ -121,6 +122,12 @@ const Products = () => {
                 }
 
             </div>
+
+                <Link href={'/products'}>
+                    <button className="w-36 mt-10 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm mx-auto">
+                        Products
+                    </button>
+                </Link>
 
         </div>
     );

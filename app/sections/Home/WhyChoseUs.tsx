@@ -1,22 +1,26 @@
 
 const features = [
   {
+    id : 1 ,
     icon: "🚚",
     title: "Fast Delivery",
     desc: "দেশের যেকোনো প্রান্তে superfast & নিরাপদ ডেলিভারি।",
   },
   {
+    id : 2 ,
     icon: "🔒",
     title: "Secure Payment",
     desc: "100% নিরাপদ ও trusted payment gateway নিশ্চিত।",
   },
   {
+    id : 3 ,
     icon: "🔄",
     title: "Easy Return Policy",
     desc: "পণ্য পছন্দ না হলে সহজেই return করতে পারেন।",
   },
   {
-    icon: "💬",
+    id : 4 ,
+    icon: "📞",
     title: "24/7 Customer Support",
     desc: "যেকোনো সমস্যায় আমরা আছি সবসময় আপনার পাশে।",
   },
@@ -24,7 +28,7 @@ const features = [
 
 const WhyChoseUs = () => {
     return (
-        <div className="min-h-[30%] w-full flex flex-col items-center gap-10 pt-12 mb-10">
+        <div className="min-h-[30%] w-full flex flex-col items-center gap-10 pt-12 mb-20">
             
             <h1 className="gro font-semibold text-2xl">Why Choose Us</h1>
 
@@ -32,7 +36,7 @@ const WhyChoseUs = () => {
                 {features.map((item, idx) => (
                     <div
                         key={idx}
-                        className="bg-white rounded-lg hover:border-green-500/50 duration-300 shadow-md border border-black/10 p-6 flex flex-col items-center text-center"
+                        className={`bg-white rounded-lg duration-300 shadow-md border border-black/10 p-6 flex flex-col items-center text-center ${item.id === 1 && "hover:border-[#32aae5]"} ${item.id === 2 && "hover:border-[#FCAC4E]"} ${item.id === 3 && "hover:border-blue-500"} ${item.id === 4 && "hover:border-green-500"}`}
                     >
                         <div className="text-5xl mb-4">{item.icon}</div>
                         <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
