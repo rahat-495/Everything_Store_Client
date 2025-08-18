@@ -123,11 +123,11 @@ const Products = () => {
 
             </div>
 
-                <Link href={'/products'}>
-                    <button className="w-36 mt-10 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm mx-auto">
-                        Products
-                    </button>
-                </Link>
+            <Link href={'/products'}>
+                <button className="w-36 mt-10 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm mx-auto">
+                    Products
+                </button>
+            </Link>
 
         </div>
     );
