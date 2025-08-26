@@ -1,6 +1,6 @@
 
 "use client"
-import image from "@/public/Images/loginImage.jpg"
+import image from "@/public/Images/loginImage.png"
 import Image from 'next/image';
 import React from 'react';
 import { useForm } from 'react-hook-form';
