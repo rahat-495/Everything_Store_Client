@@ -1,5 +1,13 @@
 
+"use client" ;
+import { usePathname } from "next/navigation";
+
 const Footer = () => {
+
+    const location = usePathname() ;
+
+    if(location === "/signup" || location === "/login") return null ;
+
     return (
         <div className="pl-48 bg-base-200">
             
