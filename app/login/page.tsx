@@ -15,9 +15,9 @@ const loginPage = () => {
     }
 
     return (
-        <div className='min-h-[100vh] flex flex-col justify-center items-center w-full bg-green-400/30 text-white'>
+        <div className='min-h-[100vh] flex flex-col justify-center items-center w-full text-white'>
 
-            <div className="flex flex-col items-center justify-center gap-3 p-5 rounded w-80 py-10 bg-gradient-to-tr from-blue-500 to-green-500 backdrop-blur-lg ">
+            <div className="flex flex-col items-center justify-center gap-3 p-5 rounded w-72 py-10 bg-gradient-to-tr from-blue-500 to-green-500 backdrop-blur-lg ">
 
                 <h1 className="gro font-semibold text-2xl">Login</h1>
 
