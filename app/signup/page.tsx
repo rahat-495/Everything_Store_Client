@@ -1,15 +1,39 @@
 
 "use client"
 import Link from "next/link";
-import React from 'react';
 import { useForm } from 'react-hook-form';
+import { LuEyeClosed } from "react-icons/lu";
+import { LuEye } from "react-icons/lu";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const signupPage = () => {
 
+    const router = useRouter() ;
     const {register , handleSubmit} = useForm();
+    const [showPassword, setShowPassword] = useState(false);
 
-    const onSubmit = (data : any) => {
-        console.log(data);
+    const onSubmit = async (data : any) => {
+        try {
+
+            const registerData = {
+                name : {
+                    firstName : data.firstName ,
+                    lastName : data.lastName ,
+                } ,
+                phone : data.phone ,
+                password : data.password ,
+            }
+
+            const res = await (await fetch("http://localhost:5555/api/v1/auth/register" , {method : "POST" , credentials : "include" , headers : { "Content-Type": "application/json" } , body : JSON.stringify(registerData)})).json() ;
+            localStorage.setItem("token" , res?.data?.accessToken) ;
+            if(res?.success){
+                router.push("/") ;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -28,7 +52,15 @@ const signupPage = () => {
 
                     <input {...register("phone")} type="number" min={0} placeholder='Phone' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
 
-                    <input {...register("password")} type="password" placeholder='Password' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
+                    <div className="relative w-full">
+
+                        {
+                            showPassword ? <LuEye className="absolute right-2 top-2 cursor-pointer text-white" size={20} onClick={() => setShowPassword(!showPassword)}/> : <LuEyeClosed className="absolute right-2 top-2 cursor-pointer text-white" size={20} onClick={() => setShowPassword(!showPassword)}/>
+                        }
+
+                        <input {...register("password")} type={showPassword ? "text" : "password"} placeholder='Password' className='border w-full border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
+
+                    </div>
 
                     <button type="submit" className="w-full rounded bg-[#9ed11c] py-0 border-[#9ed11c] hover:border-white hover:bg-transparent robo font-semibold cursor-pointer btn text-white">Sign up</button>
 
