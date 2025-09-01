@@ -1,8 +1,6 @@
 
-"use client";
-import { IconButton } from "@material-tailwind/react";
-import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import Image from "next/image";
+import Pagination from "../components/products/Pagination";
 
 const ProductsPage = () => {
 
@@ -93,26 +91,6 @@ const ProductsPage = () => {
         }
     ];
 
-    const [active, setActive] = useState(1);
-    
-    const getItemProps = (index : number) =>
-        ({
-            variant: active === index ? "filled" : "text",
-            color: "gray",
-            onClick: () => setActive(index),
-        } as any);
-    
-    const next = () => {
-        if (active === 5) return;
-        setActive(active + 1);
-    };
-    
-    const prev = () => {
-        if (active === 1) return;
-
-        setActive(active - 1);
-    };
-
     return (
         <div className="min-h-[80vh] flex flex-col items-center pt-18 gap-10 mb-20">
             
@@ -124,10 +102,13 @@ const ProductsPage = () => {
                     products.map((product) => (
                         <div key={product.id} className="card bg-base-100 p-3 border h-90 border-black/30 shadow-sm">
                     
-                            <img
+                            <Image
                             src={product.image}
                             alt="Shoes"
-                            className="rounded-xl h-40" />
+                            width={150}
+                            height={150}
+                            unoptimized 
+                            className="rounded-xl h-40 w-full" />
 
                             <div className="flex flex-col mt-5 gap-3 items-center text-center">
 
@@ -147,34 +128,7 @@ const ProductsPage = () => {
 
             </div>
 
-            <div className="flex items-center gap-4">
-
-                <button
-                    className="text-green-500 cursor-pointer border border-gray-400 hover:border-green-400 duration-300 flex items-center gap-3 px-3 rounded-lg py-2"
-                    onClick={prev}
-                    disabled={active === 1}
-                >
-                    <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
-                </button>
-
-                <div className="flex items-center gap-2">
-                    <IconButton {...getItemProps(1)} className="cursor-pointer hover:border border-gray-400">1</IconButton>
-                    <IconButton {...getItemProps(2)} className="cursor-pointer hover:border border-gray-400">2</IconButton>
-                    <IconButton {...getItemProps(3)} className="cursor-pointer hover:border border-gray-400">3</IconButton>
-                    <IconButton {...getItemProps(4)} className="cursor-pointer hover:border border-gray-400">4</IconButton>
-                    <IconButton {...getItemProps(5)} className="cursor-pointer hover:border border-gray-400">5</IconButton>
-                </div>
-
-                <button
-                    className="text-green-500 cursor-pointer border border-gray-400 hover:border-green-400 duration-300 flex items-center gap-3 px-3 rounded-lg py-2"
-                    onClick={next}
-                    disabled={active === 5}
-                >
-                    Next
-                    <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
-                </button>
-
-            </div>
+            <Pagination />
 
         </div>
     );
