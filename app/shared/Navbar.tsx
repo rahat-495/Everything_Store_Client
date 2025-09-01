@@ -17,7 +17,7 @@ const Navbar = () => {
     ]
 
     return (
-        <div className="w-full bg-white/10 backdrop-blur-lg px-8 py-3 flex items-center justify-between fixed top-0 z-50">
+        <div className={`w-full ${location === "/" ? "bg-black/10" : "bg-white/10"} backdrop-blur-lg px-8 py-3 flex items-center justify-between fixed top-0 z-50`}>
             
             <div className="flex items-center gap-1">
                 <Image src={logo} width={20} height={20} alt="logo" unoptimized className="rounded-full w-10 h-10"/>
