@@ -50,7 +50,7 @@ const signupPage = () => {
 
                     <input {...register("lastName")} type="text" placeholder='Last Name' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
 
-                    <input {...register("phone")} type="number" min={0} placeholder='Phone' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
+                    <input {...register("phone")} type="text" maxLength={11} placeholder='Phone' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
 
                     <div className="relative w-full">
 
