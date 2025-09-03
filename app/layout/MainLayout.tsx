@@ -5,6 +5,7 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { Toaster } from "sonner";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
     return (
@@ -13,6 +14,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
                 <Navbar />
                 {children}
                 <Footer />
+                <Toaster />
             </div>
         </Provider>
     );

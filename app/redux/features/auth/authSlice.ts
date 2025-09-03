@@ -3,12 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
 export type TName = {
-    firstName: string;
-    lastName: string;
+  _id?: string;
+  firstName: string;
+  lastName: string;
 }
 
 export type TUser = {
-  userId: string;
+  _id: string;
   name : TName ;
   image : string ;
   address : string ;

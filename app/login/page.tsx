@@ -5,15 +5,37 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from "../redux/hooks";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { setUser } from "../redux/features/auth/authSlice";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const loginPage = () => {
 
+    const router = useRouter() ;
     const {register , handleSubmit} = useForm();
     const dispatch = useAppDispatch() ;
     const [showPassword, setShowPassword] = useState(false);
 
-    const onSubmit = (data : any) => {
-        console.log(data);
+    const onSubmit = async (data : any) => {
+        
+        try {
+            
+            const res = await (await fetch("http://localhost:5555/api/v1/auth/login" , {method : "POST" , credentials : "include" , headers : { "Content-Type": "application/json" } , body : JSON.stringify(data)})).json() ;
+            if(res?.success){
+                dispatch(setUser({ user : res?.data?.user , token : res?.data?.accessToken })) ;
+                toast.success(res.message , {duration : 1000}) ;
+                setTimeout(() => {
+                    router.push("/") ;
+                } , 600)
+            }
+            else{
+                toast.error(res.message , {duration : 1000 , position : "top-center"}) ;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     return (

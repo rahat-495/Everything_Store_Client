@@ -6,12 +6,16 @@ import { LuEyeClosed } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 const signupPage = () => {
 
     const router = useRouter() ;
     const {register , handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useAppDispatch() ;
 
     const onSubmit = async (data : any) => {
         try {
@@ -26,11 +30,17 @@ const signupPage = () => {
             }
 
             const res = await (await fetch("http://localhost:5555/api/v1/auth/register" , {method : "POST" , credentials : "include" , headers : { "Content-Type": "application/json" } , body : JSON.stringify(registerData)})).json() ;
-            localStorage.setItem("token" , res?.data?.accessToken) ;
             if(res?.success){
-                router.push("/") ;
+                dispatch(setUser({ user : res?.data?.user , token : res?.data?.accessToken })) ;
+                toast.success(res.message , {duration : 1000}) ;
+                setTimeout(() => {
+                    router.push("/") ;
+                } , 600)
             }
-
+            else{
+                toast.error(res.message , {duration : 1000 , position : "top-center"}) ;
+            }
+            
         } catch (error) {
             console.log(error);
         }
