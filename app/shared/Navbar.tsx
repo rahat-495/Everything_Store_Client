@@ -1,13 +1,25 @@
 
+// @ts-nocheck
 "use client";
+import {
+    Button,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+} from "@material-tailwind/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/Images/logo.jpg";
+import { useAppSelector } from "../redux/hooks";
+import { RootState } from "../redux/store";
+import { CgLogOut } from "react-icons/cg";
 
 const Navbar = () => {
 
     const location = usePathname() ;
+    const userData = useAppSelector((state : RootState) => state.auth.user) ;
     
     const linkLists = [
         { name: "Home", href: "/" },
@@ -34,20 +46,51 @@ const Navbar = () => {
                     }
                 </div>
 
-                <div className="flex items-center gap-3 robo font-semibold text-sm">
-                    
-                    <Link href={'/login'}>
-                        <button className="bg-[#9ed11c] cursor-pointer text-white px-4 py-1 rounded-md hover:text-[#698b11] hover:bg-transparent border border-[#9ed11c] hover:border-[#9ed11c] duration-300">
-                            Login
-                        </button>
-                    </Link>
-                    <Link href={'/signup'}>
-                        <button className="bg-[#9ed11c] cursor-pointer text-white px-4 py-1 rounded-md hover:text-[#698b11] hover:bg-transparent border border-[#9ed11c] hover:border-[#9ed11c] duration-300">
-                            Sign up
-                        </button>
-                    </Link>
+                {
+                    userData ? 
+                    <Menu dismiss={{itemPress: false}} placement="bottom-end">
+                        <MenuHandler>
+                            <Image src={userData?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer border border-black rounded-full"/>
+                        </MenuHandler>
+                        <MenuList className="w-50 z-50 flex flex-col items-center justify-center gap-2 p-3 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
+                            
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <Image src={userData?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-12 h-12 border border-black rounded-full"/>
+                            </MenuItem>
 
-                </div>
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <h1 className="gro font-semibold text-xl mt-1">{userData?.name?.firstName} {userData?.name?.lastName}</h1>
+                            </MenuItem>
+
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <p className="gro text-lg text-black">{userData?.phone}</p>
+                            </MenuItem>
+
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <p className="">{userData?.email}</p>
+                            </MenuItem>
+
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <Button className="text-red-500 w-full border border-red-500 cursor-pointer py-2 flex items-center justify-center gap-1">Logout <CgLogOut className="font-bold text-xl"/></Button>
+                            </MenuItem>
+
+                        </MenuList>
+                    </Menu> :
+                    <div className="flex items-center gap-3 robo font-semibold text-sm">
+                        
+                        <Link href={'/login'}>
+                            <button className="bg-[#9ed11c] cursor-pointer text-white px-4 py-1 rounded-md hover:text-[#698b11] hover:bg-transparent border border-[#9ed11c] hover:border-[#9ed11c] duration-300">
+                                Login
+                            </button>
+                        </Link>
+                        <Link href={'/signup'}>
+                            <button className="bg-[#9ed11c] cursor-pointer text-white px-4 py-1 rounded-md hover:text-[#698b11] hover:bg-transparent border border-[#9ed11c] hover:border-[#9ed11c] duration-300">
+                                Sign up
+                            </button>
+                        </Link>
+
+                    </div>
+                }
 
             </div>
 
