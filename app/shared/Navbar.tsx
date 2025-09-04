@@ -12,21 +12,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/Images/logo.jpg";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { CgLogOut } from "react-icons/cg";
+import { logout } from "../redux/features/auth/authSlice";
+import { useState } from "react";
+import { TUser } from "../types/user";
+import { useGetMyDataQuery } from "../redux/features/user/userApi";
 
 const Navbar = () => {
 
     const location = usePathname() ;
-    const userData = useAppSelector((state : RootState) => state.auth.user) ;
-    
+    const user = useAppSelector((state : RootState) => state.auth.user) ;
+    const dispatch = useAppDispatch() ;
+    const [userData , setUserData] = useState<TUser>({}) ;
+    const {data} = useGetMyDataQuery(undefined) ;
+    console.log(data);
+
     const linkLists = [
         { name: "Home", href: "/" },
         { name: "Products", href: "/products" },
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
     ]
+
+    const handleLogout = () => {
+        dispatch(logout()) ;
+    }
 
     return (
         <div className={`w-full ${location === "/" ? "bg-black/10" : "bg-white/10"} backdrop-blur-lg px-8 py-3 flex items-center justify-between fixed top-0 z-50`}>
@@ -47,31 +59,39 @@ const Navbar = () => {
                 </div>
 
                 {
-                    userData ? 
+                    user ? 
                     <Menu dismiss={{itemPress: false}} placement="bottom-end">
                         <MenuHandler>
-                            <Image src={userData?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer border border-black rounded-full"/>
+                            <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer border border-black rounded-full"/>
                         </MenuHandler>
-                        <MenuList className="w-50 z-50 flex flex-col items-center justify-center gap-2 p-3 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
+                        <MenuList className="w-50 z-50 flex flex-col items-center justify-center py-3 px-1 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
                             
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <Image src={userData?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-12 h-12 border border-black rounded-full"/>
+                                <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-12 h-12 border border-black rounded-full"/>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <h1 className="gro font-semibold text-xl mt-1">{userData?.name?.firstName} {userData?.name?.lastName}</h1>
+                                <h1 className="gro font-semibold text-xl mt-1">{user?.name?.firstName} {user?.name?.lastName}</h1>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <p className="gro text-lg text-black">{userData?.phone}</p>
+                                <p className="gro text-lg text-black">{user?.phone}</p>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <p className="">{userData?.email}</p>
+                                <p className="">{user?.email}</p>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <Button className="text-red-500 w-full border border-red-500 cursor-pointer py-2 flex items-center justify-center gap-1">Logout <CgLogOut className="font-bold text-xl"/></Button>
+                                <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] cursor-pointer py-2">Cart</Button>
+                            </MenuItem>
+
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] cursor-pointer py-2">Shopping</Button>
+                            </MenuItem>
+
+                            <MenuItem className="w-full mx-auto flex items-center justify-center">
+                                <Button onClick={handleLogout} className="text-red-500 w-full shadow-none text-lg cursor-pointer py-2 flex items-end gap-1">Logout <CgLogOut className="font-bold text-2xl"/></Button>
                             </MenuItem>
 
                         </MenuList>
