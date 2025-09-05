@@ -23,13 +23,13 @@ const loginPage = () => {
             const res = await (await fetch("http://localhost:5555/api/v1/auth/login" , {method : "POST" , credentials : "include" , headers : { "Content-Type": "application/json" } , body : JSON.stringify(data)})).json() ;
             if(res?.success){
                 dispatch(setUser({ user : res?.data?.user , token : res?.data?.accessToken })) ;
-                toast.success(res.message , {duration : 1000}) ;
+                toast.success(res.message , {duration : 1000 , position : "top-center"}) ;
                 setTimeout(() => {
                     router.push("/") ;
                 } , 600)
             }
             else{
-                toast.error(res.message , {duration : 1000 , position : "top-center"}) ;
+                toast.error(res.message , {duration : 1500 , position : "top-center"}) ;
             }
 
         } catch (error) {

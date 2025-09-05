@@ -6,11 +6,9 @@ export interface TName {
 
 export interface TUser {
     name : TName;
-    email ?: string;
-    image ?: string ;
-    phone : string ;
-    address ?: string ;
-    password : string ;
+    email : string;
+    image : string ;
+    phone : number ;
+    address : string ;
     role : "user" | "admin" ;
-    isActive : boolean ;
 }
