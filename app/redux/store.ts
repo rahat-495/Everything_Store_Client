@@ -4,6 +4,7 @@ import { baseApi } from "./api/baseApi";
 import { persistReducer , persistStore , FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist" ;
 import storage from "redux-persist/lib/storage" ;
 import authReducer from "./features/auth/authSlice" ;
+import userReducer from "./features/user/userSlice" ;
 
 const authPersistConfig = {
     key : "auth" ,
@@ -16,6 +17,7 @@ export const store = configureStore({
     reducer : {
         [baseApi.reducerPath] : baseApi.reducer ,
         auth : persistedAuthReducer ,
+        user : userReducer ,
     },
     middleware : (getDefaultMiddlewares) => getDefaultMiddlewares(
         { serializableCheck : { ignoredActions : [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] } }

@@ -16,9 +16,10 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
 import { CgLogOut } from "react-icons/cg";
 import { logout } from "../redux/features/auth/authSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TUser } from "../types/user";
 import { useGetMyDataQuery } from "../redux/features/user/userApi";
+import { setUser } from "../redux/features/user/userSlice";
 
 const Navbar = () => {
 
@@ -27,7 +28,6 @@ const Navbar = () => {
     const dispatch = useAppDispatch() ;
     const [userData , setUserData] = useState<TUser>({}) ;
     const {data} = useGetMyDataQuery(undefined) ;
-    console.log(data);
 
     const linkLists = [
         { name: "Home", href: "/" },
@@ -35,6 +35,10 @@ const Navbar = () => {
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
     ]
+
+    useEffect(() => {
+        dispatch(setUser(data?.data))
+    } , [data])
 
     const handleLogout = () => {
         dispatch(logout()) ;
@@ -64,14 +68,14 @@ const Navbar = () => {
                         <MenuHandler>
                             <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer border border-black rounded-full"/>
                         </MenuHandler>
-                        <MenuList className="w-50 z-50 flex flex-col items-center justify-center py-3 px-1 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
+                        <MenuList className="w-50 z-50 mt-1.5 flex flex-col items-center justify-center py-3 px-1 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
                             
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
                                 <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-12 h-12 border border-black rounded-full"/>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">
-                                <h1 className="gro font-semibold text-xl mt-1">{user?.name?.firstName} {user?.name?.lastName}</h1>
+                                <h1 className="gro font-semibold text-lg mt-1">{user?.name?.firstName} {user?.name?.lastName}</h1>
                             </MenuItem>
 
                             <MenuItem className="w-full mx-auto flex items-center justify-center">

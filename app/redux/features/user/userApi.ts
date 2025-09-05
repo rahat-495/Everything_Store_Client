@@ -5,7 +5,7 @@ const userApi = baseApi.injectEndpoints({
     endpoints : (builders) => ({
         getMyData : builders.query({
             query : () => ({
-                url : "/user/getMyData",
+                url : "/users/getMyData",
                 method : "GET" ,
             })
         })
