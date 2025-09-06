@@ -95,7 +95,7 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
                 </MenuItem>
 
                 <MenuItem className="w-full">
-                    <Button onClick={handleLogout} className="text-red-500 -ml-6 shadow-none text-lg cursor-pointer py-2 flex items-end gap-1">Logout <CgLogOut className="font-bold text-2xl"/></Button>
+                    <Button onClick={handleLogout} className="text-red-500 shadow-none text-lg cursor-pointer py-2 flex items-end gap-1">Logout <CgLogOut className="font-bold text-2xl"/></Button>
                 </MenuItem>
 
             </MenuList>

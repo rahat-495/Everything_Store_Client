@@ -9,13 +9,14 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
+import { useSignupMutation } from "../redux/features/auth/authApi";
 
 const signupPage = () => {
 
     const router = useRouter() ;
     const {register , handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useAppDispatch() ;
+    const [signup] = useSignupMutation() ;
 
     const onSubmit = async (data : any) => {
         try {
@@ -29,16 +30,15 @@ const signupPage = () => {
                 password : data.password ,
             }
 
-            const res = await (await fetch("http://localhost:5555/api/v1/auth/register" , {method : "POST" , credentials : "include" , headers : { "Content-Type": "application/json" } , body : JSON.stringify(registerData)})).json() ;
-            if(res?.success){
-                dispatch(setUser({ user : res?.data?.user , token : res?.data?.accessToken })) ;
-                toast.success(res.message , {duration : 1000 , position : "top-center"}) ;
+            const res = await signup(registerData) ;
+            if(res?.data?.success){
+                toast.success(res?.data.message , {duration : 1000 , position : "top-center"}) ;
                 setTimeout(() => {
-                    router.push("/") ;
-                } , 600)
+                    router.push("/login") ;
+                } , 1000)
             }
             else{
-                toast.error(res.message , {duration : 1500 , position : "top-center"}) ;
+                toast.error(res?.data.message , {duration : 1500 , position : "top-center"}) ;
             }
             
         } catch (error) {
