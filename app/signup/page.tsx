@@ -16,6 +16,7 @@ const signupPage = () => {
     const router = useRouter() ;
     const {register , handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useAppDispatch() ;
     const [signup] = useSignupMutation() ;
 
     const onSubmit = async (data : any) => {
@@ -31,14 +32,16 @@ const signupPage = () => {
             }
 
             const res = await signup(registerData) ;
+            console.log(res);
             if(res?.data?.success){
-                toast.success(res?.data.message , {duration : 1000 , position : "top-center"}) ;
+                dispatch(setUser({ user : res?.data?.data?.user , token : res?.data?.data?.accessToken })) ;
+                toast.success(res?.data?.message , {duration : 1000 , position : "top-center"}) ;
                 setTimeout(() => {
-                    router.push("/login") ;
+                    router.push("/") ;
                 } , 1000)
             }
             else{
-                toast.error(res?.data.message , {duration : 1500 , position : "top-center"}) ;
+                toast.error(res?.data?.message , {duration : 1500 , position : "top-center"}) ;
             }
             
         } catch (error) {
