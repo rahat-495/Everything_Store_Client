@@ -1,6 +1,4 @@
 
-
-
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -14,7 +12,7 @@ import { toast } from "sonner";
 import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5555/api/v1",
+  baseUrl: process.env.NEXT_PUBLIC_SERVER_ADDRESS,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -37,7 +35,7 @@ const baseQueryWithRefreshToken: BaseQueryFn< FetchArgs, BaseQueryApi, Definitio
 
   if (result?.error?.status === 401) {
 
-    const res = await fetch("http://localhost:5555/api/v1/auth/refresh-token", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/auth/refresh-token`, {
       method: "POST",
       credentials: "include",
     });
