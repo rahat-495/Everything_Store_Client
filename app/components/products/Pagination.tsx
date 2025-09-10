@@ -1,6 +1,5 @@
 
 "use client";
-import { IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
@@ -31,11 +30,11 @@ const Pagination = () => {
                 </button>
 
                 <div className="flex items-center justify-center gap-2">
-                    <p className="cursor-pointer px-4 py-2 bg-green-400/20 rounded text-black">1</p>
-                    <p className="cursor-pointer px-4 py-2 bg-green-400/20 rounded text-black">2</p>
-                    <p className="cursor-pointer px-4 py-2 bg-green-400/20 rounded text-black">3</p>
-                    <p className="cursor-pointer px-4 py-2 bg-green-400/20 rounded text-black">4</p>
-                    <p className="cursor-pointer px-4 py-2 bg-green-400/50 rounded text-black">5</p>
+                    <p className="cursor-pointer btn border-none px-4 py-2 bg-green-400/20 rounded text-black">1</p>
+                    <p className="cursor-pointer btn border-none px-4 py-2 bg-green-400/20 rounded text-black">2</p>
+                    <p className="cursor-pointer btn border-none px-4 py-2 bg-green-400/20 rounded text-black">3</p>
+                    <p className="cursor-pointer btn border-none px-4 py-2 bg-green-400/20 rounded text-black">4</p>
+                    <p className="cursor-pointer btn border-none px-4 py-2 bg-green-400/50 rounded text-black">5</p>
                 </div>
 
                 <button
