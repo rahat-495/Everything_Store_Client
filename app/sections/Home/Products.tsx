@@ -19,7 +19,7 @@ const Products = async () => {
                 
                 {
                     data?.map((product : TProduct) => (
-                        <ProductComp product={product} isHome={true}/>
+                        <ProductComp key={product?._id} product={product} isHome={true}/>
                     ))
                 }
 

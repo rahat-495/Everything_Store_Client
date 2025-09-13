@@ -8,8 +8,8 @@ import { useGetAllProductsQuery } from "../redux/features/products/productApi";
 
 const ProductsPage = () => {
 
-    const [query , setQuery] = useState({searchTerm: '', minPrice: '', maxPrice: '', category: "" , isAvailable : ""})
-    const {data} = useGetAllProductsQuery(undefined) ;
+    const [query , setQuery] = useState({searchTerm: '', category: '', minPrice: '', maxPrice: '', isAvailable: ''})
+    const {data} = useGetAllProductsQuery(query) ;
 
     return (
         <div className="min-h-[80vh] flex flex-col items-center pt-18 gap-10 mb-20">

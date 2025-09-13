@@ -10,7 +10,7 @@ const ProductsComp = ({data} : {data : TProduct[]}) => {
                 
             {
                 data?.length && data?.map((product : TProduct) => (
-                    <ProductComp product={product} isHome={false}/>
+                    <ProductComp key={product?._id} product={product} isHome={false}/>
                 ))
             }
 
