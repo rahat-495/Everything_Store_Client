@@ -2,8 +2,7 @@
 "use server" ;
 import FilterComp from "../components/products/FilterComp";
 import Pagination from "../components/products/Pagination";
-import ProductComp from "../components/products/ProductComp";
-import { TProduct } from "../types/product";
+import ProductsComp from "../components/products/ProductsComp";
 
 const ProductsPage = async () => {
 
@@ -16,17 +15,7 @@ const ProductsPage = async () => {
             <h1 className="robo font-semibold text-2xl">All Products</h1>
 
             <FilterComp />
-
-            <div className="w-[80%] grid grid-cols-6 gap-5">    
-                
-                {
-                    data?.map((product : TProduct) => (
-                        <ProductComp product={product} isHome={false}/>
-                    ))
-                }
-
-            </div>
-
+            <ProductsComp data={data}/>
             <Pagination />
 
         </div>
