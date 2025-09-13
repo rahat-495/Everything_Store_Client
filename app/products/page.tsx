@@ -1,21 +1,23 @@
 
-"use server" ;
+"use client" ;
+import { useState } from "react";
 import FilterComp from "../components/products/FilterComp";
 import Pagination from "../components/products/Pagination";
 import ProductsComp from "../components/products/ProductsComp";
+import { useGetAllProductsQuery } from "../redux/features/products/productApi";
 
-const ProductsPage = async () => {
+const ProductsPage = () => {
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/products` , {method : "GET"})
-    const {data} = await res.json() ;
+    const [query , setQuery] = useState({searchTerm: '', minPrice: '', maxPrice: '', category: "" , isAvailable : ""})
+    const {data} = useGetAllProductsQuery(undefined) ;
 
     return (
         <div className="min-h-[80vh] flex flex-col items-center pt-18 gap-10 mb-20">
             
             <h1 className="robo font-semibold text-2xl">All Products</h1>
 
-            <FilterComp />
-            <ProductsComp data={data}/>
+            <FilterComp setQuery={setQuery}/>
+            <ProductsComp data={data?.data}/>
             <Pagination />
 
         </div>

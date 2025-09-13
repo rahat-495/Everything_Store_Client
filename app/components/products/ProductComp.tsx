@@ -1,6 +1,6 @@
 
 // @ts-nocheck
-"use server"
+"use client";
 import { TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import CustomButton from "../button/CustomButton";

@@ -1,5 +1,5 @@
 
-"use server"
+// "use client" ;
 import { TProduct } from "@/app/types/product";
 import ProductComp from "./ProductComp";
 
