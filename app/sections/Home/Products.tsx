@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Products = async () => {
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/products` , {method : "GET"})
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/products?limit=12` , {method : "GET"})
     const {data} = await res.json() ;
 
     return (
