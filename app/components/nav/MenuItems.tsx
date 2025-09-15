@@ -89,8 +89,8 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
                 </MenuItem>
 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/messages"} className="w-full">
-                        <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] border-[#064a4d] hover:text-[#09838a] cursor-pointer py-2 px-0">Message</Button>
+                    <Link href={"/dashboard"} className="w-full">
+                        <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] border-[#064a4d] hover:text-[#09838a] cursor-pointer py-2 px-0">Dashboard</Button>
                     </Link>
                 </MenuItem>
 

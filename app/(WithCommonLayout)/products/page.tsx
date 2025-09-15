@@ -1,10 +1,10 @@
 
 "use client" ;
 import { useState } from "react";
-import FilterComp from "../components/products/FilterComp";
-import Pagination from "../components/products/Pagination";
-import ProductsComp from "../components/products/ProductsComp";
-import { useGetAllProductsQuery } from "../redux/features/products/productApi";
+import FilterComp from "../../components/products/FilterComp";
+import Pagination from "../../components/products/Pagination";
+import ProductsComp from "../../components/products/ProductsComp";
+import { useGetAllProductsQuery } from "../../redux/features/products/productApi";
 
 const ProductsPage = () => {
 
