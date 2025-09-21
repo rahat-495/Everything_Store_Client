@@ -12,6 +12,7 @@ import { useGetMyDataQuery } from "../redux/features/user/userApi";
 import { setUser } from "../redux/features/user/userSlice";
 import MenuItems from "../components/nav/MenuItems";
 import NavAuthLinks from "../components/nav/NavAuthLinks";
+import { useLogoutMutation } from "../redux/features/auth/authApi";
 
 const Navbar = () => {
 
@@ -19,6 +20,7 @@ const Navbar = () => {
     const user = useAppSelector((state : RootState) => state.auth.user) ;
     const dispatch = useAppDispatch() ;
     const {data} = useGetMyDataQuery(undefined) ;
+    const [logoutUser] = useLogoutMutation() ;
 
     const linkLists = [
         { name: "Home", href: "/" },
@@ -31,7 +33,8 @@ const Navbar = () => {
         dispatch(setUser(data?.data))
     } , [data])
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        const data = await logoutUser({}) ;
         dispatch(logout()) ;
     }
 
