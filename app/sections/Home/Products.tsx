@@ -26,7 +26,7 @@ const Products = async () => {
             </div>
 
             <Link href={'/products'}>
-                <CustomButton className="w-36 mt-10 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm mx-auto">
+                <CustomButton className="w-36 mt-10 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm mx-auto">
                     Products
                 </CustomButton>
             </Link>

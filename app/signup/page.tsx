@@ -36,7 +36,7 @@ const signupPage = () => {
             }
 
             const res = await signup(registerData) ;
-            console.log(res);
+            
             if(res?.data?.success){
                 dispatch(setUser({ user : res?.data?.data?.user , token : res?.data?.data?.accessToken })) ;
                 toast.success(res?.data?.message , {duration : 1000 , position : "top-center"}) ;
@@ -45,7 +45,7 @@ const signupPage = () => {
                         router.push(redirect) ;
                     }
                     else{
-                        router.push("/profile") ;
+                        router.push(`/`) ;
                     }
                 } , 1000)
             }
@@ -59,7 +59,12 @@ const signupPage = () => {
     }
 
     if(user){
-        router.push("/") ;
+        if(redirect){
+            router.push(redirect) ;
+        }
+        else{
+            router.push("/") ;
+        }
     }
 
     return (

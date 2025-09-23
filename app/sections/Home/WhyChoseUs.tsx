@@ -36,7 +36,7 @@ const WhyChoseUs = () => {
                 {features.map((item, idx) => (
                     <div
                         key={idx}
-                        className={`bg-white rounded-lg duration-300 shadow-md border border-black/10 p-6 flex flex-col items-center text-center ${item.id === 1 && "hover:border-[#32aae5]"} ${item.id === 2 && "hover:border-[#FCAC4E]"} ${item.id === 3 && "hover:border-blue-500"} ${item.id === 4 && "hover:border-green-500"}`}
+                        className={`rounded-lg duration-300 shadow-md border p-6 flex flex-col items-center text-center border-[#623d8d79] ${item.id === 1 && "hover:border-[#32aae5]"} ${item.id === 2 && "hover:border-[#FCAC4E]"} ${item.id === 3 && "hover:border-blue-500"} ${item.id === 4 && "hover:border-red-500"}`}
                     >
                         <div className="text-5xl mb-4">{item.icon}</div>
                         <h3 className="text-xl font-semibold mb-2">{item.title}</h3>

@@ -13,7 +13,7 @@ interface ProductCompProps {
 
 const ProductComp = ({ product, isHome }: ProductCompProps) => {
     return (
-        <div key={product?._id} className="card bg-base-100 p-3 border h-90 border-black/30 shadow-sm">
+        <div key={product?._id} className="card bg-base-100 p-3 border h-90 border-white/30 shadow-sm">
             
             <img
             src={product?.image}
@@ -30,9 +30,9 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
 
                 {
                     isHome ?
-                    <CustomButton className="w-36 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm">Quick Add</CustomButton>:
+                    <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>:
                     <Link href={`/products/${product?._id}`}>
-                        <CustomButton className="w-36 bg-[#B3E240] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-black text-sm">View Details</CustomButton>
+                        <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
                     </Link>
 
                 }

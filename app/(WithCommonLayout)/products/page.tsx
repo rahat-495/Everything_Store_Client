@@ -8,7 +8,7 @@ import { useGetAllProductsQuery } from "../../redux/features/products/productApi
 
 const ProductsPage = () => {
 
-    const [query , setQuery] = useState({searchTerm: '', category: '', minPrice: '', maxPrice: '', isAvailable: ''})
+    const [query , setQuery] = useState({searchTerm: '', category: '', minPrice: 0, maxPrice: 0, isAvailable: ''})
     const {data} = useGetAllProductsQuery(query) ;
 
     return (

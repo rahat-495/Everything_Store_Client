@@ -35,7 +35,7 @@ const loginPage = () => {
                         router.push(redirect) ;
                     }
                     else{
-                        router.push("/profile") ;
+                        router.push(`/`) ;
                     }
                 } , 1000)
             }
@@ -50,7 +50,12 @@ const loginPage = () => {
     }
 
     if(user){
-        router.push("/") ;
+        if(redirect){
+            router.push(redirect) ;
+        }
+        else{
+            router.push("/") ;
+        }
     }
 
     return (

@@ -71,7 +71,7 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
                 </MenuItem>
 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/profile"} className="w-fit">
+                    <Link href={"/user/profile"} className="w-fit">
                         <Button className="text-left bg-gradient-to-tl rounded mb-3 mt-1 from-[#9ed11c] to-white text-[#09838a] cursor-pointer py-2 px-10">Profile</Button>
                     </Link>
                 </MenuItem>

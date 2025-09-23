@@ -15,14 +15,12 @@ const Reviews = () => {
             <h1 className="gro font-semibold text-2xl">What Our Customers Say</h1>
 
             <Swiper
-                spaceBetween={30}
-                centeredSlides={true}
                 autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
+                    delay: 2500,
+                    disableOnInteraction: false,
                 }}
                 pagination={{
-                clickable: true,
+                    clickable: true,
                 }}
                 grabCursor
                 navigation={true}
@@ -32,10 +30,10 @@ const Reviews = () => {
                 
                 <SwiperSlide className=''>
 
-                    <div className="w-full h-full flex items-center mt-5 flex-col gap-3">
-                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' unoptimized/>
-                        <h1 className="gro font-semibold">Harry Potter</h1>
-                        <p className="w-[50%] text-center">
+                    <div className="w-full h-full flex items-center mt-5 pt-10 flex-col gap-3 bg-[#010313a4] rounded">
+                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' loading='lazy' unoptimized/>
+                        <h1 className="gro font-semibold select-none">Harry Potter</h1>
+                        <p className="w-[50%] text-center select-none">
                             Great service! The delivery was super fast and the product quality is top-notch. Highly recommend!
                             fully satisfied with my purchase. The customer support was also very helpful and responsive.
                         </p>
@@ -45,10 +43,10 @@ const Reviews = () => {
 
                 <SwiperSlide className=''>
 
-                    <div className="w-full h-full flex items-center mt-5 flex-col gap-3">
-                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' unoptimized/>
-                        <h1 className="gro font-semibold">Harry Potter</h1>
-                        <p className="w-[50%] text-center">
+                    <div className="w-full h-full flex items-center mt-5 pt-10 flex-col gap-3 bg-[#010313a4] rounded">
+                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' loading='lazy' unoptimized/>
+                        <h1 className="gro font-semibold select-none">Harry Potter</h1>
+                        <p className="w-[50%] text-center select-none">
                             Great service! The delivery was super fast and the product quality is top-notch. Highly recommend!
                             fully satisfied with my purchase. The customer support was also very helpful and responsive.
                         </p>
@@ -58,10 +56,10 @@ const Reviews = () => {
 
                 <SwiperSlide className=''>
 
-                    <div className="w-full h-full flex items-center mt-5 flex-col gap-3">
-                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' unoptimized/>
-                        <h1 className="gro font-semibold">Harry Potter</h1>
-                        <p className="w-[50%] text-center">
+                    <div className="w-full h-full flex items-center mt-5 pt-10 flex-col gap-3 bg-[#010313a4] rounded">
+                        <Image src={manImage} width={20} height={20} alt='reviewer logo' className='rounded-full w-20 h-20 mx-auto' loading='lazy' unoptimized/>
+                        <h1 className="gro font-semibold select-none">Harry Potter</h1>
+                        <p className="w-[50%] text-center select-none">
                             Great service! The delivery was super fast and the product quality is top-notch. Highly recommend!
                             fully satisfied with my purchase. The customer support was also very helpful and responsive.
                         </p>
