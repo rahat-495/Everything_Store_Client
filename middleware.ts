@@ -2,7 +2,10 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { getCurrentUser } from './app/utils/user/getCurrentUser';
 
+type TRole = keyof typeof roleBasedPrivateRoutes ;
+
 const authRoutes = ['/login' , '/signup'] ;
+const roleBasedPrivateRoutes = { user : [/^\/user/] , admin : [/^\/admin/] }
 
 export const middleware = async (request: NextRequest) => {
   
@@ -17,14 +20,18 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.redirect(new URL(`http://localhost:3000/login?redirectPath=${pathname}` , request.url)) ;
     }
   }
-  else if(userInfo){
-    if(authRoutes.includes(pathname)){
-      return NextResponse.redirect(new URL('http://localhost:3000' , request.url)) ;
+
+  if(userInfo?._doc?.role && roleBasedPrivateRoutes[userInfo?._doc?.role as TRole]){
+    const routes = roleBasedPrivateRoutes[userInfo?._doc?.role as TRole] ;
+    if(routes.some((route) => pathname.match(route))){
+      return NextResponse.next() ;
     }
   }
+
+  return NextResponse.redirect(new URL(`/` , request.url)) ;
 
 }
  
 export const config = {
-  matcher: [ '/products' ] ,
+  matcher: [ '/user' , '/user/:page' , '/admin' , '/admin/:page' ] ,
 }
