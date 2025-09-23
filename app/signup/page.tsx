@@ -5,18 +5,22 @@ import { useForm } from 'react-hook-form';
 import { LuEyeClosed } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "../redux/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
 import { useSignupMutation } from "../redux/features/auth/authApi";
+import { RootState } from "../redux/store";
 
 const signupPage = () => {
 
     const router = useRouter() ;
+    const searchParams = useSearchParams() ;
+    const redirect = searchParams.get("redirectPath") ;
     const {register , handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch() ;
+    const user = useAppSelector((state : RootState) => state.auth.user) ;
     const [signup] = useSignupMutation() ;
 
     const onSubmit = async (data : any) => {
@@ -37,7 +41,12 @@ const signupPage = () => {
                 dispatch(setUser({ user : res?.data?.data?.user , token : res?.data?.data?.accessToken })) ;
                 toast.success(res?.data?.message , {duration : 1000 , position : "top-center"}) ;
                 setTimeout(() => {
-                    router.push("/") ;
+                    if(redirect){
+                        router.push(redirect) ;
+                    }
+                    else{
+                        router.push("/profile") ;
+                    }
                 } , 1000)
             }
             else{
@@ -47,6 +56,10 @@ const signupPage = () => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    if(user){
+        router.push("/") ;
     }
 
     return (
