@@ -36,7 +36,7 @@ const LinkList = () => {
             element : <BiShoppingBag /> ,
         },
         {
-            path : "/profile" ,
+            path : "/user/profile" ,
             label : "Profile" ,
             element : <CgProfile /> ,
         },
@@ -54,7 +54,7 @@ const LinkList = () => {
 
     const adminLinks = [
         {
-            path : "/profile" ,
+            path : "/admin/profile" ,
             label : "Profile" ,
             element : <CgProfile /> ,
         },
@@ -106,8 +106,11 @@ const LinkList = () => {
                 {
 
                     user?.role === "user" ?
+
                     userLinks?.map((link) => <Link href={link?.path} key={link?.path} className={`text-xl gro flex gap-2 text-gray-400 items-center h-9 hover:bg-[#241733] duration-200 ${pathName === link?.path && "bg-[#241733] text-purple-300"} rounded px-3 my-1.5`}> <span className="text-lg">{link?.element}</span> {link?.label}</Link>) :
+
                     adminLinks?.map((link) => <Link href={link?.path} key={link?.path} className={`text-xl gro flex gap-2 text-gray-400 items-center h-9 hover:bg-[#241733] duration-200 ${pathName === link?.path && "bg-[#241733] text-purple-300"} rounded px-3 my-1.5`}> <span className="text-lg">{link?.element}</span> {link?.label}</Link>)
+                    
                 }
             </div>
 
