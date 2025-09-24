@@ -1,9 +1,5 @@
 
 "use server";
-import Link from "next/link";
-import { FaShoppingCart } from "react-icons/fa";
-import { FaBagShopping } from "react-icons/fa6";
-import { GrUserManager } from "react-icons/gr";
 import LinkList from "../components/dashNavbar/LinkList";
 import ProfileInfo from "../components/dashNavbar/ProfileInfo";
 

@@ -118,7 +118,7 @@ const LinkList = () => {
                 {
                     linkList2?.map((link) => <Link href={link?.path} key={link?.path} className={`text-xl gro hover:text-purple-300 flex gap-2 text-gray-400 items-center h-9 hover:bg-[#241733] duration-200 ${pathName === link?.path && "bg-[#241733]"} rounded px-3 my-1.5`}> <span className="text-lg">{link?.element}</span> {link?.label}</Link>)
                 } 
-                <Button onClick={handleLogout} className="text-[#853ed6] hover:text-[#9143eb] duration-300 ml-3 shadow-none text-lg cursor-pointer py-1 flex items-end gap-1"><CgLogOut className="font-bold text-2xl"/> Logout</Button>
+                <Button onClick={handleLogout} className="text-[#853ed6] hover:text-[#9143eb] duration-300 -ml-3 shadow-none text-lg cursor-pointer py-1 flex items-end gap-1"><CgLogOut className="font-bold text-2xl"/> Logout</Button>
             </div>
 
         </div>
