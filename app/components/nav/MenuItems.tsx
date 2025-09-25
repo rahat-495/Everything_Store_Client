@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CgLogOut } from "react-icons/cg";
+import MenuLinks from "./MenuLinks";
 
 const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) => {
 
@@ -45,7 +46,7 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
                 }
                 
             </MenuHandler>
-            <MenuList className="w-60 z-50 mt-1.5 -ml-3 flex flex-col items-center cursor-none justify-center py-3 px-1 border-none bg-gradient-to-tl from-[#9ed11c]/50 to-blue-500/20">
+            <MenuList className="w-60 z-50 mt-1.5 -ml-3 flex flex-col items-center cursor-none justify-center py-3 px-1 border-none bg-[#241733]">
                 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
                     {
@@ -59,43 +60,21 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
                 </MenuItem>
 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <h1 className="gro font-semibold text-lg mt-1">{user?.name?.firstName} {user?.name?.lastName}</h1>
+                    <h1 className="gro font-semibold text-lg mt-1 text-[#c0a9db]">{user?.name?.firstName} {user?.name?.lastName}</h1>
                 </MenuItem>
 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <p className="gro text-lg text-black">{user?.phone}</p>
+                    <p className="gro text-lg text-[#c0a9db]">{user?.phone}</p>
                 </MenuItem>
 
                 <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <p className="">{user?.email}</p>
+                    <p className="text-[#c0a9db] gro text-lg">{user?.email}</p>
                 </MenuItem>
 
-                <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/user/profile"} className="w-fit">
-                        <Button className="text-left bg-gradient-to-tl rounded mb-3 mt-1 from-[#9ed11c] to-white text-[#09838a] cursor-pointer py-2 px-10">Profile</Button>
-                    </Link>
-                </MenuItem>
-
-                <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/cart"} className="w-full">
-                        <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] border-[#064a4d] hover:text-[#09838a] cursor-pointer py-2 px-0">Cart</Button>
-                    </Link>
-                </MenuItem>
-
-                <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/shopping"} className="w-full">
-                        <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] border-[#064a4d] hover:text-[#09838a] cursor-pointer py-2 px-0">Shopping</Button>
-                    </Link>
-                </MenuItem>
-
-                <MenuItem className="w-full mx-auto flex items-center justify-center">
-                    <Link href={"/dashboard"} className="w-full">
-                        <Button className="w-full border-b rounded-none text-left bg-transparent shadow-none text-[#064a4d] border-[#064a4d] hover:text-[#09838a] cursor-pointer py-2 px-0">Dashboard</Button>
-                    </Link>
-                </MenuItem>
+                <MenuLinks />
 
                 <MenuItem className="w-full">
-                    <Button onClick={handleLogout} className="text-red-500 shadow-none text-lg cursor-pointer py-2 flex items-end gap-1">Logout <CgLogOut className="font-bold text-2xl"/></Button>
+                    <Button onClick={handleLogout} className="text-[#853ed6] hover:text-[#9143eb] ml- duration-300 shadow-none text-lg cursor-pointer py-1 flex items-end gap-1"><CgLogOut className="font-bold text-2xl"/>Logout</Button>
                 </MenuItem>
 
             </MenuList>
