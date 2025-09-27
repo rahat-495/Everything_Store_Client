@@ -18,7 +18,7 @@ const Products = async () => {
             <div className="w-[80%] mt-10 grid grid-cols-6 gap-5">    
                 
                 {
-                    data?.lenght && data?.map((product : TProduct) => (
+                    data?.length && data?.map((product : TProduct) => (
                         <ProductComp key={product?._id} product={product} isHome={true}/>
                     ))
                 }

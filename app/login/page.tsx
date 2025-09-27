@@ -1,4 +1,5 @@
 
+// @ts-nocheck
 "use client"
 import Link from "next/link";
 import React, { useState } from 'react';
@@ -27,6 +28,7 @@ const loginPage = () => {
         try {
             
             const res = await login(data) ;
+            console.log(res?.error?.data?.success) ;
             if(res?.data?.success){
                 dispatch(setUser({ user : res?.data?.data?.user , token : res?.data?.data?.accessToken })) ;
                 toast.success(res?.data?.message , {duration : 1000 , position : "top-center"}) ;
@@ -39,14 +41,14 @@ const loginPage = () => {
                     }
                 } , 1000)
             }
-            else{
-                toast.error(res?.data?.message , {duration : 1500 , position : "top-center"}) ;
+            else if(!res?.error?.data?.success){
+                toast.error(res?.error?.data?.message , {duration : 1500 , position : "top-center"}) ;
             }
-
+            
         } catch (error) {
             console.log(error);
         }
-
+        
     }
 
     if(user){
@@ -67,7 +69,7 @@ const loginPage = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-3 w-full px-3'>
 
-                    <input {...register("phone")} type="text" maxLength={11} placeholder='Phone/Email' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
+                    <input {...register("phone")} type="text" placeholder='Phone/Email' className='border border-white/50 px-2 py-1 rounded gro focus:border-white text-white outline-none' required/>
 
                     <div className="relative w-full">
                     

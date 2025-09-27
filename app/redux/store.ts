@@ -11,13 +11,19 @@ const authPersistConfig = {
     storage ,
 }
 
+const userPersistConfig = {
+    key : "user" ,
+    storage ,
+}
+
 const persistedAuthReducer = persistReducer(authPersistConfig , authReducer) ;
+const persistedUserReducer = persistReducer(userPersistConfig , userReducer) ;
 
 export const store = configureStore({
     reducer : {
         [baseApi.reducerPath] : baseApi.reducer ,
         auth : persistedAuthReducer ,
-        user : userReducer ,
+        user : persistedUserReducer ,
     },
     middleware : (getDefaultMiddlewares) => getDefaultMiddlewares(
         { serializableCheck : { ignoredActions : [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] } }

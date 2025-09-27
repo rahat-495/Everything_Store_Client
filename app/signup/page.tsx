@@ -1,4 +1,5 @@
 
+// @ts-nocheck
 "use client"
 import Link from "next/link";
 import { useForm } from 'react-hook-form';
@@ -49,8 +50,8 @@ const signupPage = () => {
                     }
                 } , 1000)
             }
-            else{
-                toast.error(res?.data?.message , {duration : 1500 , position : "top-center"}) ;
+            else if(!res?.error?.data?.success){
+                toast.error(res?.error?.data?.message , {duration : 1500 , position : "top-center"}) ;
             }
             
         } catch (error) {

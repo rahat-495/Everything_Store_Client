@@ -73,8 +73,8 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
 
                 <MenuLinks />
 
-                <MenuItem className="w-full">
-                    <Button onClick={handleLogout} className="text-[#853ed6] hover:text-[#9143eb] ml- duration-300 shadow-none text-lg cursor-pointer py-1 flex items-end gap-1"><CgLogOut className="font-bold text-2xl"/>Logout</Button>
+                <MenuItem className="w-full mt-1">
+                    <Button onClick={handleLogout} className="text-[#853ed6] hover:text-[#9143eb] -ml-6 duration-300 shadow-none text-lg cursor-pointer py-1 flex items-end gap-1"><CgLogOut className="font-bold text-2xl"/>Logout</Button>
                 </MenuItem>
 
             </MenuList>

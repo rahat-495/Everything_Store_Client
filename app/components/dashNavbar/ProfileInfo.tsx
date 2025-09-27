@@ -9,7 +9,7 @@ const ProfileInfo = () => {
     const data = useAppSelector((state : RootState) => state.auth.user) ;
 
     return (
-        <div className="w-full flex flex-col items-center border-b border-dashed border-[#3d2757] pb-6">
+        <div className={`w-full flex flex-col items-center border-b border-dashed border-[#3d2757] ${data?.role === "admin" ? "pb-3 mb-3" : "pb-6"}`}>
             
             {
                 data?.image ?

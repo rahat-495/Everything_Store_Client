@@ -5,6 +5,8 @@ import { TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import CustomButton from "../button/CustomButton";
 import Link from "next/link";
+import { useAppSelector } from "@/app/redux/hooks";
+import { RootState } from "@/app/redux/store";
 
 interface ProductCompProps {
   product: TProduct;
@@ -12,6 +14,9 @@ interface ProductCompProps {
 }
 
 const ProductComp = ({ product, isHome }: ProductCompProps) => {
+
+    const user = useAppSelector((state : RootState) => state.auth.user) ;
+
     return (
         <div key={product?._id} className="card bg-base-100 p-3 border h-90 border-white/30 shadow-sm">
             
@@ -29,6 +34,12 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
                 <p>Price : {product?.price} TK</p>
 
                 {
+                    user?.role === "admin" ?
+
+                    <Link href={`/products/${product?._id}`}>
+                        <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
+                    </Link>:
+
                     isHome ?
                     <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>:
                     <Link href={`/products/${product?._id}`}>
