@@ -18,7 +18,7 @@ const UpdateProfile = ({ click, setClick,} : { click: any; setClick: any;}) => {
             />
         </div>
 
-        <UpdateProfileInfoForm />
+        <UpdateProfileInfoForm setClick={setClick} click={click}/>
         <UpdatePasswordForm setClick={setClick} click={click}/>
 
     </div>

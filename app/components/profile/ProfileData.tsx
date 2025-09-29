@@ -54,7 +54,7 @@ const ProfileData = ({click , setClick , user}) => {
 
                 <div className="">
                     <p className="text-[#545674] text-lg inter font-semibold">Address</p>
-                    <p className={`text-[#CEC1DE] text-lg lexend ${user?.address && user?.address?.length > 22 && "tooltip"}`} data-tip={user?.address}>{user?.address ? user?.address?.length > 22 ? user?.address?.slice(0,21) : user?.address : "Address not provide"}</p>
+                    <p className={`text-[#CEC1DE] text-lg lexend ${user?.address && user?.address?.length > 22 && "tooltip"}`} data-tip={user?.address}>{user?.address ? user?.address?.length > 22 ? user?.address?.slice(0,21)+'...' : user?.address : "Address not provide"}</p>
                 </div>
 
                 <div className="">

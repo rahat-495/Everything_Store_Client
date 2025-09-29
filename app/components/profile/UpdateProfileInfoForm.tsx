@@ -1,6 +1,7 @@
 
 "use client" ;
-import { useAppSelector } from "@/app/redux/hooks";
+import { setUser } from "@/app/redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import updateProfileInfo from "@/app/utils/auth/updateProfileInfo";
 import Image from "next/image";
@@ -9,11 +10,13 @@ import { useForm } from "react-hook-form";
 import { FiUpload } from "react-icons/fi";
 import { SlLocationPin } from "react-icons/sl";
 import { TbUser, TbMail, TbPhone } from "react-icons/tb";
+import Swal from "sweetalert2";
 
-const UpdateProfileInfoForm = () => {
+const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : any}) => {
 
     const {register , handleSubmit} = useForm() ;
     const user = useAppSelector((state : RootState) => state.auth.user) ;
+    const token = useAppSelector((state : RootState) => state.auth.token) ;
     const [imagePreview , setImagePreview] = useState<string>(user?.image as string || "") ; 
     const [firstName , setFirstName] = useState("") ;
     const [lastName , setLastName] = useState("") ;
@@ -21,7 +24,8 @@ const UpdateProfileInfoForm = () => {
     const [address , setAddress] = useState("") ;
     const [isDisabled , setIsDisabled] = useState(false) ;
     const [imageLink , setImageLink] = useState("") ;
-
+    const dispatch = useAppDispatch() ;
+    
     const onSubmit = async (data : any) => {
         const formData = new FormData();
         formData.append("image", data?.image[0]);
@@ -38,7 +42,23 @@ const UpdateProfileInfoForm = () => {
 
         const updatedProfilData = { name : {firstName : data?.firstName , lastName : data?.lastName} , email : data?.email , address : data?.address , image : imageLink } ;
         const result = await updateProfileInfo(updatedProfilData) ;
-        console.log(result);
+
+        if(result?.success){
+            Swal.fire({
+                title: "Success!",
+                text: data?.message || "Profile updated successfully",
+                icon: "success"
+            });
+            dispatch(setUser({ user : result?.data , token })) ;
+            setClick(!click) ;
+        }
+        else{
+            Swal.fire({
+                title: "Oops!",
+                text: data?.message || "Something went wrong during updating profile !",
+                icon: "error"
+            });
+        }
     }
 
     useEffect(() => {

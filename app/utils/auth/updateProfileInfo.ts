@@ -10,7 +10,7 @@ interface TUpdateProfile {
 }
 
 const updateProfileInfo = async (payload : TUpdateProfile) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/auth/updateProfile` , {method : "POST" , credentials : "include" , headers : {"Content-Type" : "application/json"} , body : JSON.stringify(payload)}) ;
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/users/updateProfile` , {method : "POST" , credentials : "include" , headers : {"Content-Type" : "application/json"} , body : JSON.stringify(payload)}) ;
     const data = await res.json() ;
     return data ;
 };
