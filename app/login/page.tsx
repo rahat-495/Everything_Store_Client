@@ -28,7 +28,6 @@ const loginPage = () => {
         try {
             
             const res = await login(data) ;
-            console.log(res?.error?.data?.success) ;
             if(res?.data?.success){
                 dispatch(setUser({ user : res?.data?.data?.user , token : res?.data?.data?.accessToken })) ;
                 toast.success(res?.data?.message , {duration : 1000 , position : "top-center"}) ;

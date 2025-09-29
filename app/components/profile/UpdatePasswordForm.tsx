@@ -1,24 +1,40 @@
 
 "use client";
+import updatePassword from "@/app/utils/auth/updatePassword";
 import { useState } from "react";
 import { TbLock } from "react-icons/tb";
+import { toast } from "sonner";
+import Swal from "sweetalert2";
 
-const UpdatePasswordForm = () => {
+const UpdatePasswordForm = ({setClick , click} : {setClick : any , click : any}) => {
+
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const isDisabled =
-        !currentPassword || !newPassword || newPassword !== confirmPassword;
+    const isDisabled = !currentPassword || !newPassword || newPassword !== confirmPassword;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (isDisabled) return;
-        console.log({
-            currentPassword,
-            newPassword,
-            confirmPassword,
-        });
+        const data = await updatePassword({ currentPassword, newPassword }) ;
+        if(data?.success){
+            Swal.fire({
+                title: "Success!",
+                text: data?.message || "Password updated successfully",
+                icon: "success"
+            });
+            setNewPassword("") ;
+            setCurrentPassword("") ;
+            setConfirmPassword("") ;
+            setClick(!click) ;
+        }
+        else{
+            Swal.fire({
+                title: "Oops!",
+                text: data?.message || "Something went wrong during updating password !",
+                icon: "error"
+            });
+        }
     };
 
     return (

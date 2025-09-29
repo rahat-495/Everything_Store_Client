@@ -11,7 +11,7 @@ const UpdateProfile = ({ click, setClick,} : { click: any; setClick: any;}) => {
     const user = useAppSelector((state : RootState) => state.auth.user) ;
 
     return (
-    <div className="px-3 max-h-[75vh] overflow-y-auto scrollbar-hide">
+    <div className="px-3 min-h-[90vh] max-h-[75vh] overflow-y-auto scrollbar-hide">
 
         <div className="w-[100%] pt-3 bg-[#170F21] flex items-center justify-between sticky top-0 border-b-2 border-dashed border-[#2b1b3d] pb-3">
             <h1 className="text-transparent select-none bg-clip-text bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] font-semibold text-xl">
@@ -24,7 +24,7 @@ const UpdateProfile = ({ click, setClick,} : { click: any; setClick: any;}) => {
         </div>
 
         <UpdateProfileInfoForm />
-        <UpdatePasswordForm />
+        <UpdatePasswordForm setClick={setClick} click={click}/>
 
     </div>
   );
