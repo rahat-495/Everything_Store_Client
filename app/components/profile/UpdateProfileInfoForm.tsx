@@ -17,11 +17,11 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
     const {register , handleSubmit} = useForm() ;
     const user = useAppSelector((state : RootState) => state.auth.user) ;
     const token = useAppSelector((state : RootState) => state.auth.token) ;
-    const [imagePreview , setImagePreview] = useState<string>(user?.image as string || "") ; 
-    const [firstName , setFirstName] = useState("") ;
-    const [lastName , setLastName] = useState("") ;
-    const [email , setEmail] = useState("") ;
-    const [address , setAddress] = useState("") ;
+    const [imagePreview , setImagePreview] = useState<string>("") ; 
+    const [firstName , setFirstName] = useState(user?.name?.firstName) ;
+    const [lastName , setLastName] = useState(user?.name?.lastName) ;
+    const [email , setEmail] = useState(user?.email) ;
+    const [address , setAddress] = useState(user?.email) ;
     const [isDisabled , setIsDisabled] = useState(false) ;
     const [imageLink , setImageLink] = useState("") ;
     const dispatch = useAppDispatch() ;
@@ -40,7 +40,7 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
             setImageLink(imageData?.data?.url) ;
         }
 
-        const updatedProfilData = { name : {firstName : data?.firstName , lastName : data?.lastName} , email : data?.email , address : data?.address , image : imageLink } ;
+        const updatedProfilData = { name : {firstName : data?.firstName , lastName : data?.lastName} , email : data?.email , address : data?.address , image : imageData?.data?.url } ;
         const result = await updateProfileInfo(updatedProfilData) ;
 
         if(result?.success){
@@ -148,6 +148,8 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
                         {
                             imagePreview ?
                             <Image src={imagePreview} width={15} height={15} alt="Profile iamge" unoptimized className="w-26 h-26 cursor-pointer border border-black rounded-full my-3"/> :
+                            user?.image ? 
+                            <Image src={user?.image} width={15} height={15} alt="Profile iamge" unoptimized className="w-26 h-26 cursor-pointer border border-black rounded-full my-3"/> :
                             <p className="border rounded-full w-26 h-26 border-[#3d2757] flex items-center justify-center robo cursor-pointer text-[#c0a9db] bg-black/30 my-3">
                                 {user?.name?.firstName.slice(0,1)}
                                 {user?.name?.lastName.slice(0,1)}
@@ -171,7 +173,7 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
                 <div className="w-full flex justify-end">
                     {
                         isDisabled && !imagePreview ?
-                        <button className={`font-semibold px-6 py-1 rounded-lg hover:opacity-90 transition bg-gray-600 text-gray-400 cursor-not-allowed`}>
+                        <button disabled className={`font-semibold px-6 py-1 rounded-lg hover:opacity-90 transition bg-gray-600 text-gray-400 cursor-not-allowed`}>
                             Save Changes
                         </button> :
                         <button className={`font-semibold px-6 py-1 rounded-lg hover:opacity-90 transition bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]`}>
