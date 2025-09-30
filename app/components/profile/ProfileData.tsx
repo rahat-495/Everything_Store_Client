@@ -19,7 +19,7 @@ const TABLE_ROWS = [
 
 const ProfileData = ({click , setClick , user}) => {
     return (
-        <div className="p-3 h-[60vh]">
+        <div className="p-3 overflow-y-auto scrollbar-hide">
             
             <div className="flex items-center justify-between w-full border-b-2 border-dashed border-[#2b1b3d] pb-5">
                 <h1 className="text-transparent select-none bg-clip-text bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] gro font-semibold text-xl">My Profile</h1>
@@ -88,10 +88,10 @@ const ProfileData = ({click , setClick , user}) => {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-[#170F21]">
                         {TABLE_ROWS.map(({ platform , date }, index) => {
                             return (
-                                <tr key={index} className="shadow">
+                                <tr key={index} className="shadow bg-[#170F21]">
                                     <td className={`pl-5 h-8 text-[#CEC1DE] lexend`}>
                                         {index+1}
                                     </td>
