@@ -1,12 +1,13 @@
 
 export type TProduct = {
     _id : string;
-    image: string;
     title: string;
+    shortDescription: string;
     description: string;
     price: number;
-    previousPrice?: number; 
-    discount?: number; 
-    inStock : boolean;
-    quantity : number;
+    previousPrice: number;
+    discount: number;
+    quantity: number;
+    category: string;
+    image: string;
 }

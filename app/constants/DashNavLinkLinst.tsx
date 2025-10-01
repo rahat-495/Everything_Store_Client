@@ -72,7 +72,7 @@ export const adminLinks = [
         element : <AiOutlineProduct /> ,
     },
     {
-        path : "/admin/manageProduct" ,
+        path : "/admin/manageProducts" ,
         label : "Manage Product" ,
         element : <MdOutlineManageHistory /> ,
     },

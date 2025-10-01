@@ -1,32 +1,62 @@
 
 "use client";
+import addProduct from "@/app/utils/products/addProduct";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiUpload } from "react-icons/fi";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { TbTag, TbInfoCircle, TbCurrencyTaka, TbCategory } from "react-icons/tb";
+import Swal from "sweetalert2";
 
-type TProduct = {
-  title: string;
-  shortDescription: string;
-  description: string;
-  price: number;
-  previousPrice: number;
-  discount: number;
-  quantity: number;
-  category: string;
-  image: FileList;
+export type TProduct = {
+    title: string;
+    shortDescription: string;
+    description: string;
+    price: number;
+    previousPrice: number;
+    discount: number;
+    quantity: number;
+    category: string;
+    image: FileList;
 };
 
 const AddProduct = () => {
+
+    const router = useRouter() ;
     const { register, handleSubmit } = useForm<TProduct>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    const onSubmit = (data: TProduct) => {
-        console.log("Product Data:", {
-        ...data,
-        image: data.image?.[0],
+    const onSubmit = async (data: TProduct) => {
+        const formData = new FormData();
+        formData.append("image", data?.image[0]);
+
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API}`, {
+            method: "POST",
+            body: formData,
         });
+
+        const imageData = await res.json() ;
+        if(imageData?.success && imageData?.data?.url){
+            const result = await addProduct({...data , image : imageData?.data?.url , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.previousPrice) , quantity : Number(data?.quantity)}) ;
+            if(result?.success){
+                if(result?.success){
+                    Swal.fire({
+                        title: "Success!",
+                        text: result?.message || "Product created successfully",
+                        icon: "success"
+                    });
+                    router.push('/admin/manageProducts')
+                }
+                else{
+                    Swal.fire({
+                        title: "Oops!",
+                        text: result?.message || "Something went wrong during creating product !",
+                        icon: "error"
+                    });
+                }
+            }
+        }
     };
 
     return (
@@ -139,44 +169,41 @@ const AddProduct = () => {
                             <FiUpload /> Product Image
                         </p>
                         <label
-                        htmlFor="productImage"
-                        className="cursor-pointer border-2 border-dashed border-[#3d2757] rounded-lg p-4 flex items-center justify-center text-[#c0a9db] hover:bg-black/20 transition"
+                            htmlFor="productImage"
+                            className="cursor-pointer border-2 border-dashed border-[#3d2757] rounded-lg p-4 flex items-center justify-center text-[#c0a9db] hover:bg-black/20 transition"
                         >
                             {imagePreview ? (
-                                <img
-                                src={imagePreview}
-                                alt="preview"
-                                className="w-28 h-28 object-cover rounded-md"
-                                />
-                            ) : (
-                                "Click to upload image"
-                            )}
+                                        <img
+                                        src={imagePreview}
+                                        alt="preview"
+                                        className="w-28 h-28 object-cover rounded-md"
+                                        />
+                                    ) : (
+                                        "Click to upload image"
+                                    )}
                         </label>
-                        <input
-                            {...register("image", {
-                                onChange: (e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                    setImagePreview(URL.createObjectURL(file));
-                                }
-                                },
-                            })}
-                            id="productImage"
-                            type="file"
-                            className="hidden"
-                            accept="image/*"
-                        />
+                            <input
+                                {...register("image", {
+                                    onChange: (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        setImagePreview(URL.createObjectURL(file));
+                                    }
+                                    },
+                                })}
+                                id="productImage"
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                            />
                     </div>
                     
                 </div>
 
                 <div className="w-full flex justify-end mt-6">
-                <button
-                    type="submit"
-                    className="font-semibold px-6 py-2 rounded-lg hover:opacity-90 transition bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]"
-                >
-                    Add Product
-                </button>
+                    <button type="submit" className="font-semibold px-6 py-2 rounded-lg hover:opacity-90 transition bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]">
+                        Add Product
+                    </button>
                 </div>
             </form>
         </div>
