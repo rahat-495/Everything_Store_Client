@@ -1,7 +1,7 @@
 
 const ManageProductsPage = () => {
     return (
-        <div className="min-h-[80vh]">
+        <div className="min-h-[75vh]">
             Manage Products Page
         </div>
     );

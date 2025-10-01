@@ -1,6 +1,7 @@
 
 "use client";
-import addProduct from "@/app/utils/products/addProduct";
+import { useAddProductMutation } from "@/app/redux/features/products/productApi";
+// import addProduct from "@/app/utils/products/addProduct";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,6 +27,7 @@ const AddProduct = () => {
     const router = useRouter() ;
     const { register, handleSubmit } = useForm<TProduct>();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [addProduct] = useAddProductMutation() ;
 
     const onSubmit = async (data: TProduct) => {
         const formData = new FormData();
@@ -38,12 +40,13 @@ const AddProduct = () => {
 
         const imageData = await res.json() ;
         if(imageData?.success && imageData?.data?.url){
-            const result = await addProduct({...data , image : imageData?.data?.url , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.previousPrice) , quantity : Number(data?.quantity)}) ;
-            if(result?.success){
-                if(result?.success){
+            const result = await addProduct({...data , image : imageData?.data?.url , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.previousPrice) , quantity : Number(data?.quantity)})
+            console.log(result?.data);
+            if(result?.data?.success){
+                if(result?.data?.success){
                     Swal.fire({
                         title: "Success!",
-                        text: result?.message || "Product created successfully",
+                        text: result?.data?.message || "Product created successfully",
                         icon: "success"
                     });
                     router.push('/admin/manageProducts')
@@ -51,7 +54,7 @@ const AddProduct = () => {
                 else{
                     Swal.fire({
                         title: "Oops!",
-                        text: result?.message || "Something went wrong during creating product !",
+                        text: result?.data?.message || "Something went wrong during creating product !",
                         icon: "error"
                     });
                 }
