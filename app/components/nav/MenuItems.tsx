@@ -38,7 +38,7 @@ const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) 
 
                 {
                     user?.image ? 
-                    <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer border border-black rounded-full"/> :
+                    <Image src={user?.image} width={10} height={10} alt="Profile iamge" unoptimized className="w-10 h-10 cursor-pointer rounded-full"/> :
                     <p className="border rounded-full w-10 h-10 flex items-center justify-center robo cursor-pointer text-white bg-black/30 border-black">
                         {user?.name?.firstName.slice(0,1)}
                         {user?.name?.lastName.slice(0,1)}

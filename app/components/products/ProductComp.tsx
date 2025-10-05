@@ -7,6 +7,7 @@ import CustomButton from "../button/CustomButton";
 import Link from "next/link";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
+import { usePathname } from "next/navigation";
 
 interface ProductCompProps {
   product: TProduct;
@@ -15,10 +16,62 @@ interface ProductCompProps {
 
 const ProductComp = ({ product, isHome }: ProductCompProps) => {
 
+    const pathname = usePathname() ;
     const user = useAppSelector((state : RootState) => state.auth.user) ;
 
     return (
-        <div key={product?._id} className="card bg-base-100 p-3 border h-90 border-white/30 shadow-sm">
+        pathname === "/admin/manageProducts" ? 
+        <Link href={`/products/${product?._id}`} key={product?._id} className={`card bg-base-100 rounded-lg p-3 border h-88 border-white/30 shadow-sm ${pathname === "/admin/manageProducts" && "bg-transparent"}`}>
+            
+            <img
+            src={product?.image}
+            alt="Shoes"
+            className="rounded-xl h-40" />
+
+            <div className="flex flex-col mt-5 gap-2 items-center text-center">
+
+                <h2 className="card-title">{product?.title}</h2>
+                
+                <p className="tooltip" data-tip={product?.description}>{product?.description?.length > 25 ? product?.description?.slice(0 , 24) + "..." : product?.description }</p>
+
+                <p>Price : {product?.price} TK</p>
+
+                {
+                    pathname === "/admin/manageProducts" ? 
+
+                    <div className="w-full grid grid-cols-2 gap-3">
+                        <Link href={`/products/${product?._id}`}>
+                            <CustomButton className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Update</CustomButton>
+                        </Link>
+                        <Link href={`/products/${product?._id}`}>
+                            <CustomButton className="w-full bg-[#810d05] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a89bb8] text-sm">Delete</CustomButton>
+                        </Link>
+                    </div> 
+                    
+                    :
+
+                    user?.role === "admin" ?
+                    <Link href={`/products/${product?._id}`}>
+                        <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
+                    </Link>
+                    
+                    :
+
+                    isHome ?
+                    <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>
+                    
+                    :
+
+                    <Link href={`/products/${product?._id}`}>
+                        <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
+                    </Link>
+
+                }
+
+            </div>
+            
+        </Link> :
+        <div key={product?._id} className={`card bg-base-100 p-3 border h-90 border-white/30 shadow-sm ${pathname === "/admin/manageProducts" && "bg-transparent"}`}>
             
             <img
             src={product?.image}
@@ -34,14 +87,31 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
                 <p>Price : {product?.price} TK</p>
 
                 {
-                    user?.role === "admin" ?
+                    pathname === "/admin/manageProducts" ? 
 
+                    <div className="w-full grid grid-cols-2 gap-3">
+                        <Link href={`/products/${product?._id}`}>
+                            <CustomButton className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Update</CustomButton>
+                        </Link>
+                        <Link href={`/products/${product?._id}`}>
+                            <CustomButton className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Delete</CustomButton>
+                        </Link>
+                    </div> 
+                    
+                    :
+
+                    user?.role === "admin" ?
                     <Link href={`/products/${product?._id}`}>
                         <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
-                    </Link>:
+                    </Link>
+                    
+                    :
 
                     isHome ?
-                    <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>:
+                    <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>
+                    
+                    :
+
                     <Link href={`/products/${product?._id}`}>
                         <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">View Details</CustomButton>
                     </Link>
@@ -50,7 +120,8 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
 
             </div>
             
-        </div>
+        </div> 
+        
     );
 };
 

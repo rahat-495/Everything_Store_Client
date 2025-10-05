@@ -1,7 +1,10 @@
 
+import ProductDetailsLastSec from "@/app/components/productDetails/ProductDetailsLastSec";
 import getSingleProduct from "@/app/utils/products/getSingleProduct";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
+  
   const { id } = params;
   const response = await getSingleProduct(id);
   const product = response?.data;
@@ -20,10 +23,11 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
             />
         </div>
 
-        <div className="text-[#CEC1DE] space-y-4">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]">
+        <div className="text-[#CEC1DE] space-y-3">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text lexend bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]">
             {product?.title}
           </h1>
+          <p className="text-[#a9acc9] text-lg">{product?.shortDescription}</p>
           <p className="text-[#a9acc9]">{product?.description}</p>
 
           <div className="flex items-center space-x-4">
@@ -50,7 +54,7 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
             </p>
             <p>
               <span className="font-semibold text-[#C83EEC]">Stock:</span>{" "}
-              {product?.instock ? "Available" : "Out of stock"}
+              {product?.inStock ? "Available" : "Out of stock"}
             </p>
             <p>
               <span className="font-semibold text-[#C83EEC]">Quantity:</span>{" "}
@@ -58,10 +62,7 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
             </p>
           </div>
 
-
-          <button className="mt-6 bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition">
-            Add to Cart
-          </button>
+          <ProductDetailsLastSec quantity={product?.quantity}/>
           
         </div>
       </div>
