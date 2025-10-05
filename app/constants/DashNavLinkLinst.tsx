@@ -47,19 +47,9 @@ export const adminLinks = [
         element : <BiShoppingBag /> ,
     },
     {
-        path : "/admin/carts" ,
-        label : "Carts" ,
-        element : <AiOutlineShoppingCart /> ,
-    },
-    {
         path : "/admin/users" ,
         label : "Users" ,
         element : <FiUsers /> ,
-    },
-    {
-        path : "/admin/dashboard" ,
-        label : "Dashboard" ,
-        element : <LuLayoutDashboard /> ,
     },
     {
         path : "/admin/reviews" ,
@@ -67,9 +57,19 @@ export const adminLinks = [
         element : <FaRegStar /> ,
     },
     {
+        path : "/admin/dashboard" ,
+        label : "Dashboard" ,
+        element : <LuLayoutDashboard /> ,
+    },
+    {
         path : "/admin/addProduct" ,
         label : "Add Product" ,
         element : <AiOutlineProduct /> ,
+    },
+    {
+        path : "/admin/manageOrders" ,
+        label : "Manage Orders" ,
+        element : <MdOutlineManageHistory /> ,
     },
     {
         path : "/admin/manageProducts" ,
