@@ -1,7 +1,6 @@
 
 import ProductDetailsLastSec from "@/app/components/productDetails/ProductDetailsLastSec";
 import getSingleProduct from "@/app/utils/products/getSingleProduct";
-import { FaMinus, FaPlus } from "react-icons/fa";
 
 const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
   

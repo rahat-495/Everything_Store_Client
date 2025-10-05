@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const ProductDetailsLastSec = ({quantity} : {quantity : number}) => {
 
-    const [amount , setAmount] = useState(179) ;
+    const [amount , setAmount] = useState(1) ;
 
     const increaseAmount = () => {
         if(amount >= quantity){
@@ -26,7 +26,7 @@ const ProductDetailsLastSec = ({quantity} : {quantity : number}) => {
             <div className="flex items-center gap-3">
 
             <button disabled={amount===1} onClick={() => setAmount(amount-1)} className={`${amount===1 ? "bg-[#a3a1a1]" : "bg-[#DADADA]"} cursor-pointer w-6 h-6 rounded flex items-center justify-center text-black text-lg`}><FaMinus /></button>
-            <p className="">{amount}</p>
+            <p className="border rounded w-10 text-center">{amount}</p>
             <button onClick={increaseAmount} className="bg-[#DADADA] cursor-pointer w-6 h-6 rounded flex items-center justify-center text-black text-lg"><FaPlus /></button>
 
           </div>
