@@ -61,7 +61,7 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
             </p>
           </div>
 
-          <ProductDetailsLastSec quantity={product?.quantity}/>
+          <ProductDetailsLastSec productId={id} quantity={product?.quantity}/>
           
         </div>
       </div>
