@@ -30,12 +30,12 @@ const CheckoutLeftComp = ({id} : {id : string}) => {
     }
 
     return (
-        <div className="w-[50%] h-[60vh] rounded-md flex flex-col">
+        <div className="w-[45%] h-[60vh] rounded-md flex flex-col">
 
             <div className="w-full flex items-center justify-between p-3 bg-[#291a3a] rounded-t-md">
                 
                 <h1 className="gro text-lg">Shopping & Billing</h1>
-                <button onClick={() => setIsOpen(!isOpen)} className="gro text-lg cursor-pointer">EDIT</button>
+                <button onClick={() => setIsOpen(!isOpen)} className="gro text-lg cursor-pointer text-[#565aa8]">EDIT</button>
 
             </div>
 
