@@ -2,9 +2,9 @@
 import ProductDetailsLastSec from "@/app/components/productDetails/ProductDetailsLastSec";
 import getSingleProduct from "@/app/utils/products/getSingleProduct";
 
-const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
+const ProductDetailsPage = async ({ params , searchParams }: { params: { id: string } , searchParams : {quantity : number} }) => {
   
-  const { id } = params;
+  const { id } = await params;
   const response = await getSingleProduct(id);
   const product = response?.data;
 
@@ -22,7 +22,7 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
             />
         </div>
 
-        <div className="text-[#CEC1DE] space-y-3">
+        <div className="text-[#CEC1DE] space-y-2">
           <h1 className="text-3xl font-bold text-transparent bg-clip-text lexend bg-gradient-to-r from-[#C83EEC] to-[#4D57FE]">
             {product?.title}
           </h1>
@@ -59,6 +59,13 @@ const ProductDetailsPage = async ({ params }: { params: { id: string } }) => {
               <span className="font-semibold text-[#C83EEC]">Quantity:</span>{" "}
               {product?.quantity}
             </p>
+            {
+              searchParams?.quantity &&
+              <p>
+                <span className="font-semibold text-[#C83EEC]">Your cart:</span>{" "}
+                {searchParams?.quantity}
+              </p>
+            }
           </div>
 
           <ProductDetailsLastSec productId={id} quantity={product?.quantity}/>
