@@ -1,5 +1,5 @@
 
-import { AiOutlineProduct, AiOutlineShoppingCart } from "react-icons/ai"
+import { AiOutlineProduct } from "react-icons/ai"
 import { BiShoppingBag } from "react-icons/bi"
 import { CgProfile } from "react-icons/cg"
 import { FaHome, FaRegStar } from "react-icons/fa"

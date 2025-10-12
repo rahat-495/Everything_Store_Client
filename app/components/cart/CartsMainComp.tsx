@@ -103,7 +103,9 @@ const CartsMainComp = () => {
                         <Link href={`/products/${cart?.productId?._id}?quantity=${cart?.amount}`}>
                             <CustomButton className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Details</CustomButton>
                         </Link>
-                        <Button className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Checkout</Button>
+                        <Link href={`/checkout/${cart?._id}?quantity=${cart?.amount}`}>
+                            <Button className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Checkout</Button>
+                        </Link>
                     </div> 
 
                     <div className="w-full grid grid-cols-2 gap-2">

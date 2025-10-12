@@ -27,11 +27,15 @@ export const middleware = async (request: NextRequest) => {
       return NextResponse.next() ;
     }
   }
+  
+  if(userInfo?._doc?.role === 'user' && pathname?.includes("/checkout")){
+    return NextResponse.next() ;
+  }
 
   return NextResponse.redirect(new URL(`/` , request.url)) ;
 
 }
  
 export const config = {
-  matcher: [ '/user' , '/user/:page' , '/admin' , '/admin/:page' ] ,
+  matcher: [ '/user' , '/user/:page' , '/admin' , '/admin/:page' , '/checkout/:page' ] ,
 }
