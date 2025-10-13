@@ -13,6 +13,7 @@ export interface TCart {
         inStock: boolean;
         category: string;
         image: string;
+        deliveryFee : number;
     };
     userId: string;
     amount: number;
