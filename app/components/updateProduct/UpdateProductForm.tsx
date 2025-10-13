@@ -5,6 +5,7 @@ import { TProduct } from "@/app/types/product";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { CiDeliveryTruck } from "react-icons/ci";
 import { FiUpload } from "react-icons/fi";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { TbCategory, TbCurrencyTaka, TbInfoCircle, TbTag } from "react-icons/tb";
@@ -33,7 +34,7 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
         }
 
         const result = await updateProduct(
-            { payload : {...data , image : newImage ? newImage : imagePreview , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.       previousPrice) , quantity : Number(data?.quantity)} ,
+            { payload : {...data , image : newImage ? newImage : imagePreview , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.       previousPrice) , quantity : Number(data?.quantity) , deliveryFee : Number(data?.deliveryFee)} ,
             id
             }
         )
@@ -60,7 +61,7 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full rounded-xl py-4 px-4 shadow-lg border border-[#3a2f4f]"
+            className="w-full h-full rounded-xl py-4 px-4 shadow-lg border overflow-y-auto scrollbar-hide border-[#3a2f4f]"
         >
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -165,6 +166,20 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                         {...register("quantity")}
                         defaultValue={productData?.quantity}
                         placeholder="Enter quantity"
+                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    />
+                </div>
+
+                <div className="flex flex-col col-span-2 gap-2">
+                    <label className="flex items-center gap-2 text-[#CEC1DE] font-medium">
+                        <CiDeliveryTruck /> Delivery Fee
+                    </label>
+                    <input
+                        min={0}
+                        type="number"
+                        defaultValue={70}
+                        {...register("deliveryFee")}
+                        placeholder="Enter Delivery Fee"
                         className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
