@@ -1,28 +1,41 @@
 
 // @ts-nocheck
 "use client";
-import { useUpdateProductMutation } from "@/app/redux/features/products/productApi";
-import { TPaymentMethod, TProduct } from "@/app/types/product";
+import { useAddProductMutation } from "@/app/redux/features/products/productApi";
+import { TPaymentMethod } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import{ useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { FiUpload } from "react-icons/fi";
 import { MdOutlinePayments, MdProductionQuantityLimits } from "react-icons/md";
-import { TbCategory, TbCurrencyTaka, TbInfoCircle, TbTag } from "react-icons/tb";
+import { TbTag, TbInfoCircle, TbCurrencyTaka, TbCategory } from "react-icons/tb";
 import Swal from "sweetalert2";
 
-const UpdateProductForm = ({id , productData} : {id : string , productData : TProduct}) => {
-    
-    const router = useRouter() ;
-    const {register , handleSubmit} = useForm() ;
-    const [updateProduct] = useUpdateProductMutation() ;
-    const [imagePreview, setImagePreview] = useState<string | null>(productData?.image);
-    const [paymentMethod , setPaymentMethod] = useState<TPaymentMethod>(productData?.paymentMethod) ;
-    const [newImage, setNewImage] = useState<string | null>("");
+export type TProduct = {
+    title: string;
+    shortDescription: string;
+    description: string;
+    price: number;
+    previousPrice: number;
+    discount: number;
+    quantity: number;
+    category: string;
+    image: FileList;
+    deliveryFee : number;
+    paymentMethod : TPaymentMethod ;
+};
 
-    const onSubmit = async (data : any) => {
+const AddProductForm = () => {
+
+    const router = useRouter() ;
+    const { register, handleSubmit } = useForm<TProduct>();
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [paymentMethod , setPaymentMethod] = useState<TPaymentMethod>({bkash : false , nagat : false , CashOnDelivery : false}) ;
+    const [addProduct] = useAddProductMutation() ;
+
+    const onSubmit = async (data: TProduct) => {
         if(!paymentMethod?.CashOnDelivery && !paymentMethod?.bkash && !paymentMethod?.nagat){
             Swal.fire({
                 title: "Oops!",
@@ -31,45 +44,39 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
             });
         }
         else{
-            if(imagePreview !== productData?.image){
-                const formData = new FormData();
-                formData.append("image", data?.image[0]);
-        
-                const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API}`, {
-                    method: "POST",
-                    body: formData,
-                });
-        
-                const imageData = await res.json() ;
-                setNewImage(imageData?.data?.url) ;
-            }
+            const formData = new FormData();
+            formData.append("image", data?.image[0]);
     
-            const result = await updateProduct(
-                { payload : {...data , image : newImage ? newImage : imagePreview , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.       previousPrice) , quantity : Number(data?.quantity) , deliveryFee : Number(data?.deliveryFee)} ,
-                id
-                }
-            )
-                
-            if(result?.data?.success){
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API}`, {
+                method: "POST",
+                body: formData,
+            });
+    
+            const imageData = await res.json() ;
+            if(imageData?.success && imageData?.data?.url){
+                const result = await addProduct({...data , image : imageData?.data?.url , discount : Number(data?.discount) , price : Number(data?.price) , previousPrice : Number(data?.previousPrice) , quantity : Number(data?.quantity) , deliveryFee : Number(data?.deliveryFee) , paymentMethod})
+                console.log(result?.data);
                 if(result?.data?.success){
-                    Swal.fire({
-                        title: "Success!",
-                        text: result?.data?.message || "Product updated successfully",
-                        icon: "success"
-                    });
-                    router.push('/admin/manageProducts')
-                }
-                else{
-                    Swal.fire({
-                        title: "Oops!",
-                        text: result?.data?.message || "Something went wrong during updating product !",
-                        icon: "error"
-                    });
+                    if(result?.data?.success){
+                        Swal.fire({
+                            title: "Success!",
+                            text: result?.data?.message || "Product created successfully",
+                            icon: "success"
+                        });
+                        router.push('/admin/manageProducts')
+                    }
+                    else{
+                        Swal.fire({
+                            title: "Oops!",
+                            text: result?.data?.message || "Something went wrong during creating product !",
+                            icon: "error"
+                        });
+                    }
                 }
             }
         }
-    }
-    
+    };
+
     const handleCashOnDelivery = () => {
         setPaymentMethod({bkash : false , nagat : false , CashOnDelivery : !paymentMethod?.CashOnDelivery}) ;
     }
@@ -102,10 +109,9 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbTag /> Title
                     </label>
                     <input
-                        {...register("title")}
-                        defaultValue={productData?.title}
-                        placeholder="Enter product title"
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    {...register("title")}
+                    placeholder="Enter product title"
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
 
@@ -114,14 +120,13 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbCategory /> Category
                     </label>
                     <select
-                        {...register("category")}
-                        defaultValue={productData?.category}
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    {...register("category")}
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     >
-                        <option value="fruits">Fruits</option>
-                        <option value="book">Book</option>
-                        <option value="cloths">Cloths</option>
-                        <option value="food">Food</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="book">Book</option>
+                    <option value="cloths">Cloths</option>
+                    <option value="food">Food</option>
                     </select>
                 </div>
 
@@ -130,10 +135,9 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbInfoCircle /> Short Description
                     </label>
                     <input
-                        {...register("shortDescription")}
-                        defaultValue={productData?.shortDescription}
-                        placeholder="Enter short description"
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    {...register("shortDescription")}
+                    placeholder="Enter short description"
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
 
@@ -142,11 +146,10 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbInfoCircle /> Description
                     </label>
                     <textarea
-                        {...register("description")}
-                        defaultValue={productData?.description}
-                        placeholder="Enter product description"
-                        rows={4}
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    {...register("description")}
+                    placeholder="Enter product description"
+                    rows={4}
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
 
@@ -155,11 +158,10 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbCurrencyTaka /> Price
                     </label>
                     <input
-                        type="number"
-                        {...register("price")}
-                        defaultValue={productData?.price}
-                        placeholder="Enter price"
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    type="number"
+                    {...register("price")}
+                    placeholder="Enter price"
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
 
@@ -168,11 +170,10 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <TbCurrencyTaka /> Previous Price
                     </label>
                     <input
-                        type="number"
-                        {...register("previousPrice")}
-                        defaultValue={productData?.previousPrice}
-                        placeholder="Enter previous price"
-                        className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
+                    type="number"
+                    {...register("previousPrice")}
+                    placeholder="Enter previous price"
+                    className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
                 </div>
 
@@ -183,7 +184,6 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <input
                         type="number"
                         {...register("discount")}
-                        defaultValue={productData?.discount}
                         placeholder="Enter discount"
                         className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
@@ -196,7 +196,6 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                     <input
                         type="number"
                         {...register("quantity")}
-                        defaultValue={productData?.quantity}
                         placeholder="Enter quantity"
                         className="bg-[#1e1c29] border border-[#3a2f4f] text-[#CEC1DE] rounded-md px-3 py-2 focus:outline-none focus:border-[#672079]"
                     />
@@ -225,7 +224,7 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                         <Button onClick={handleBkash} size="sm" className="w-full bg-[#401c5e] border h-8 border-[#401c5e] text-xs cursor-pointer rounded gro">Bkash</Button>
                         
                         <Button onClick={handleNagat} size="sm" className="w-full bg-[#401c5e] border h-8 border-[#401c5e] text-xs cursor-pointer rounded gro">Nagat</Button>
-
+    
                         <Button onClick={handleCashOnDelivery} size="sm" className={`w-full border h-8 border-[#401c5e] bg-[#401c5e] text-xs cursor-pointer rounded gro col-span- ${paymentMethod?.CashOnDelivery && "text-blue-400 border border-blue-400 bg-transparent"}`}>Cash On Delivery</Button>
 
                     </div>
@@ -253,10 +252,10 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
                         <input
                             {...register("image", {
                                 onChange: (e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                        setImagePreview(URL.createObjectURL(file));
-                                    }
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    setImagePreview(URL.createObjectURL(file));
+                                }
                                 },
                             })}
                             id="productImage"
@@ -277,4 +276,4 @@ const UpdateProductForm = ({id , productData} : {id : string , productData : TPr
     );
 };
 
-export default UpdateProductForm;
+export default AddProductForm;
