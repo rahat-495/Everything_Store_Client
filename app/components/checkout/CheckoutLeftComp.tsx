@@ -30,7 +30,7 @@ const CheckoutLeftComp = ({id} : {id : string}) => {
     }
 
     return (
-        <div className="w-[45%] h-[60vh] rounded-md flex flex-col">
+        <div className="w-full h-[60vh] rounded-md flex flex-col col-span-3">
 
             <div className="w-full flex items-center justify-between p-3 bg-[#291a3a] rounded-t-md">
                 

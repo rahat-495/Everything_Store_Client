@@ -1,4 +1,10 @@
 
+export interface TPaymentMethod {
+  bkash ?: boolean ;
+  nagat ?: boolean ;
+  CashOnDelivery ?: boolean ;
+}
+
 export interface TCart {
     _id: string;
     productId: {
@@ -14,6 +20,7 @@ export interface TCart {
         category: string;
         image: string;
         deliveryFee : number;
+        paymentMethod : TPaymentMethod ;
     };
     userId: string;
     amount: number;
