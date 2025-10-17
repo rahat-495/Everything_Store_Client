@@ -2,10 +2,11 @@
 // @ts-nocheck
 "use client";
 import { useGetSingleCartQuery } from "@/app/redux/features/cart/cartApi";
+import { useGetSingleProductQuery } from "@/app/redux/features/products/productApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import { TCart } from "@/app/types/cart";
-import { TPaymentMethod } from "@/app/types/product";
+import { TPaymentMethod, TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,12 +14,12 @@ import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { TbCurrencyTaka } from "react-icons/tb";
 import Swal from "sweetalert2";
 
-const CheckoutRightComp = ({id} : {id : string}) => {
+const CheckoutRightComp = ({id , from , amount} : {id : string , from : string , amount : number}) => {
 
     const [paymentMethod , setPaymentMethod] = useState<TPaymentMethod>({bkash : false , nagat : false , CashOnDelivery : false}) ;
     const user = useAppSelector((state : RootState) => state?.user) ;
-    const {data} = useGetSingleCartQuery({id}) ;
-    const cart : TCart = data?.data ;
+    const {data} = useGetSingleProductQuery(id) ;
+    const product : TProduct = data?.data ;
 
     const handleCashOnDelivery = () => {
         setPaymentMethod({bkash : false , nagat : false , CashOnDelivery : !paymentMethod?.CashOnDelivery}) ;
@@ -89,18 +90,18 @@ const CheckoutRightComp = ({id} : {id : string}) => {
 
                 <p className="text-xl my-2">Order Summary</p>
                 <div className="flex items-center justify-between">
-                    <p className="">Items Total ({cart?.amount} Items)</p>
-                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {cart?.productId?.price * cart?.amount}</p>
+                    <p className="">Items Total ({amount} Items)</p>
+                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {product?.price * amount}</p>
                 </div>
 
                 <div className="flex items-center justify-between my-2 border-b py-2 border-[#3d2757]">
                     <p className="">Delivery Fee</p>
-                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {cart?.productId?.deliveryFee}</p>
+                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {product?.deliveryFee}</p>
                 </div>
 
                 <div className="flex items-center justify-between ">
                     <p className="">Total :</p>
-                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {cart?.productId?.price + cart?.productId?.deliveryFee}</p>
+                    <p className="flex items-center"><TbCurrencyTaka className="text-lg"/> {product?.price * amount + product?.deliveryFee}</p>
                 </div>
 
                 <p className="mt-5 text-xl border-t border-dashed border-[#3d2757] pt-1">Payment Method</p>

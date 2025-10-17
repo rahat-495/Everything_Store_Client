@@ -1,25 +1,26 @@
 
 // @ts-nocheck
 "use client";
-import { useGetSingleCartQuery } from "@/app/redux/features/cart/cartApi";
+import { useGetSingleProductQuery } from "@/app/redux/features/products/productApi";
 import { useUpdateAddressMutation } from "@/app/redux/features/user/userApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import { TCart } from "@/app/types/cart";
+import { TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { TbCurrencyTaka } from "react-icons/tb";
 
-const CheckoutLeftComp = ({id} : {id : string}) => {
+const CheckoutLeftComp = ({id , from , amount} : {id : string , from : string , amount : number}) => {
 
     const [address , setAddress] = useState("") ;
     const [isOpen , setIsOpen] = useState(false) ;
     const {register , handleSubmit} = useForm() ;
     const user = useAppSelector((state : RootState) => state?.user) ;
     const [updateAddress] = useUpdateAddressMutation() ;
-    const {data} = useGetSingleCartQuery({id}) ;
-    const product : TCart = data?.data ;
+    const {data} = useGetSingleProductQuery(id) ;
+    const product : TProduct = data?.data ;
 
     const handleAddress = async () => {
         const {data} = await updateAddress({address}) ;
@@ -73,26 +74,26 @@ const CheckoutLeftComp = ({id} : {id : string}) => {
 
                 <div className="bg-[#170F21] min-h-[15vh] rounded-b-md p-3 flex gap-5">
 
-                    <img src={product?.productId?.image} alt="product image !" className="rounded w- h-30"/>
+                    <img src={product?.image} alt="product image !" className="rounded w- h-30"/>
 
                     <div className="w-full">
 
                         <div className="flex items-center justify-between gap-3 w-full">
 
                             <div className="flex items-center gap-3">
-                                <h1 className="text-lg">{product?.productId?.title}</h1>
+                                <h1 className="text-lg">{product?.title}</h1>
                                 <p className="text-lg">|</p>
-                                <p className="text-lg">{product?.productId?.shortDescription}</p>
+                                <p className="text-lg">{product?.shortDescription}</p>
                             </div>
 
-                            <p className="text-lg ml-6 flex items-center text-[#4D57FE]"> <TbCurrencyTaka className="text-xl"/>{product?.productId?.price}</p>
+                            <p className="text-lg ml-6 flex items-center text-[#4D57FE]"> <TbCurrencyTaka className="text-xl"/>{product?.price}</p>
 
-                            <p className="text-lg ml-32 text-gray-400">Qty: {product?.amount}</p>
+                            <p className="text-lg ml-32 text-gray-400">Qty: {amount}</p>
 
                         </div>
 
-                        <p className="my-2 w-3/4">{product?.productId?.description}</p>
-                        <p className="text-[#4D57FE]">Currently in stock : {product?.productId?.quantity}</p>
+                        <p className="my-2 w-3/4">{product?.description}</p>
+                        <p className="text-[#4D57FE]">Currently in stock : {product?.quantity}</p>
 
                     </div>
 

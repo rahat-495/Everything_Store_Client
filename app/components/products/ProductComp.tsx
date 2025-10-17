@@ -7,9 +7,10 @@ import CustomButton from "../button/CustomButton";
 import Link from "next/link";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useDeleteProductMutation } from "@/app/redux/features/products/productApi";
+import { useAddToCartMutation } from "@/app/redux/features/cart/cartApi";
 
 interface ProductCompProps {
   product: TProduct;
@@ -18,8 +19,10 @@ interface ProductCompProps {
 
 const ProductComp = ({ product, isHome }: ProductCompProps) => {
 
+    const router = useRouter() ;
     const pathname = usePathname() ;
     const user = useAppSelector((state : RootState) => state.auth.user) ;
+    const [addToCart] = useAddToCartMutation() ;
     const [deleteProduct] = useDeleteProductMutation() ;
     
     const handleDelete = async (id) => {
@@ -43,6 +46,30 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
                 }
             }
         });
+    }
+
+    const handleAddToCart = async () => {
+        if(user){
+            const cartData = {
+              amount : 1 ,
+              productId : product?._id ,
+              email : user?.email ,
+              phone : user?.phone ,
+              userId : user?._id ,
+            }
+            const {data} = await addToCart(cartData) ;
+            if(data?.success){
+              Swal.fire({
+                title: "Success!",
+                text: "Item add to cart success full !",
+                icon: "success"
+              });
+              router.push('/user/carts')
+            }
+        }
+        else{
+            router.push('/login')
+        }
     }
 
     return (
@@ -138,7 +165,7 @@ const ProductComp = ({ product, isHome }: ProductCompProps) => {
                     :
 
                     isHome ?
-                    <CustomButton className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</CustomButton>
+                    <Button onClick={handleAddToCart} className="w-36 bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Quick Add</Button>
                     
                     :
 

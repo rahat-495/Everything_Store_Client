@@ -3,6 +3,7 @@
 import { useAddToCartMutation } from "@/app/redux/features/cart/cartApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -60,9 +61,11 @@ const ProductDetailsLastSec = ({quantity , productId} : {quantity : number , pro
 
         <div className="flex gap-3 lexend">
 
-          <button className="mt-6 bg-[#701088] cursor-pointer px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition">
-            Buy Now
-          </button>
+          <Link href={`/checkout/${productId}?from=product&amount=${amount}`}>
+            <button className="mt-6 bg-[#701088] cursor-pointer px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition">
+              Buy Now
+            </button>
+          </Link>
 
           <button onClick={handleAddToCart} className="mt-6 bg-[#2e35c4] cursor-pointer px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition">
             Add to Cart

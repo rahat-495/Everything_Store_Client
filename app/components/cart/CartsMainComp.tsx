@@ -12,8 +12,8 @@ import Swal from "sweetalert2";
 
 const CartsMainComp = () => {
 
-    const {data} = useGetMyAllCartQuery({}) ;
     const [id , setId] = useState('') ;
+    const {data} = useGetMyAllCartQuery({}) ;
     const [amount , setAmount] = useState(1) ;
     const [quantity , setQuantity] = useState(1) ;
     const [selectedAmount , setSelectedAmount] = useState(1) ;
@@ -103,7 +103,7 @@ const CartsMainComp = () => {
                         <Link href={`/products/${cart?.productId?._id}?quantity=${cart?.amount}`}>
                             <CustomButton className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Details</CustomButton>
                         </Link>
-                        <Link href={`/checkout/${cart?._id}?quantity=${cart?.amount}`}>
+                        <Link href={`/checkout/${cart?.productId?._id}?amount=${cart?.amount}`}>
                             <Button className="w-full bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Checkout</Button>
                         </Link>
                     </div> 
