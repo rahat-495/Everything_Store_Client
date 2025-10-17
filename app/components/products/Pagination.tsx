@@ -1,52 +1,33 @@
 
+// @ts-nocheck
 "use client";
-import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { Button } from "@material-tailwind/react";
 import { useState } from "react";
 
-const Pagination = () => {
+type TMeta = {
+    limit : number ;
+    page : number ;
+    total : number ;
+    totalPage : number ;
+}
 
-    const [active, setActive] = useState(1);
-    
-    const next = () => {
-        if (active === 5) return;
-        setActive(active + 1);
-    };
-    
-    const prev = () => {
-        if (active === 1) return;
+const Pagination = ({setQuery , meta , query} : {query : {} , setQuery : any , meta : TMeta}) => {
 
-        setActive(active - 1);
-    };
+    const handleLoadMore = () => {
+        setQuery({limit : query?.limit+12})
+    }
 
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-3">
 
-                <button
-                    className="text-[#a36ce7] bg-[#422a5f] cursor-pointer border hover:scale-105 duration-300 flex items-center justify-center gap-1 px-5 rounded-lg py-2"
-                    onClick={prev}
-                    disabled={active === 1}
-                >
-                    <ArrowLeftIcon strokeWidth={2} className="h-4 w-4 mt-0.5" /> Previous
-                </button>
+            <p className="text-xs">{meta?.total < query?.limit && "No more product found !"}</p>
 
-                <div className="flex items-center justify-center gap-2">
-                    <p className="cursor-pointer btn border-none px-4 py-2 bg-[#422a5f] rounded text-white">1</p>
-                    <p className="cursor-pointer btn border-none px-4 py-2 bg-[#422a5f] rounded text-white">2</p>
-                    <p className="cursor-pointer btn border-none px-4 py-2 bg-[#422a5f] rounded text-white">3</p>
-                    <p className="cursor-pointer btn border-none px-4 py-2 bg-[#422a5f] rounded text-white">4</p>
-                    <p className="cursor-pointer btn border-none px-4 py-2 bg-[#422a5f] rounded text-[#a36ce7]">5</p>
-                </div>
+            {
+                meta?.total >= query?.limit &&
+                <Button onClick={handleLoadMore} className="bg-[#422a5f] cursor-pointer hover:scale-105 duration-300 rounded-lg py-2 font-semibold text-[#a36ce7] text-sm">Load More</Button>  
+            }
 
-                <button
-                    className="text-[#a36ce7] bg-[#422a5f] cursor-pointer border hover:scale-105 duration-300 flex items-center justify-center gap-1 px-5 rounded-lg py-2"
-                    onClick={next}
-                    disabled={active === 5}
-                >
-                    Next
-                    <ArrowRightIcon strokeWidth={2} className="h-4 w-4 mt-0.5" />
-                </button>
-
-            </div>
+        </div>
     );
 };
 

@@ -47,7 +47,7 @@ const FilterComp = ({setQuery} : {setQuery : any}) => {
                     </select>
 
                     <button type="submit" className="btn robo w-full h-full border border-[#a36ce7] font-semibold text-[#a36ce7] bg-[#2a1a3d] hover:bg-transparent hover:border-[#a36ce7]">Filter</button>
-                    <button onClick={() => setQuery({searchTerm: '', category: '', minPrice: '', maxPrice: '', isAvailable: ''})} type="reset" className="btn robo w-full h-full border font-semibold border-[#a36ce7] text-[#a36ce7] bg-[#2a1a3d] hover:bg-transparent hover:border-[#a36ce7]"><GrPowerReset /></button>
+                    <button onClick={() => setQuery({searchTerm: '', category: '', minPrice: '', maxPrice: '', isAvailable: '' , limit : 12})} type="reset" className="btn robo w-full h-full border font-semibold border-[#a36ce7] text-[#a36ce7] bg-[#2a1a3d] hover:bg-transparent hover:border-[#a36ce7]"><GrPowerReset /></button>
 
                 </div>
 
