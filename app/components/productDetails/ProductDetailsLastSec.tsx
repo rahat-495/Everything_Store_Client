@@ -5,7 +5,7 @@ import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -30,6 +30,10 @@ const ProductDetailsLastSec = ({quantity , productId} : {quantity : number , pro
   }
 
   const handleAddToCart = async () => {
+    if(!user){
+      return router.push(`/login?redirectPath=/checkout/${productId}&amount=${quantity}`) ;
+    }
+
     const cartData = {
       amount ,
       productId ,
@@ -37,6 +41,7 @@ const ProductDetailsLastSec = ({quantity , productId} : {quantity : number , pro
       phone : user?.phone ,
       userId : user?._id ,
     }
+
     const {data} = await addToCart(cartData) ;
     if(data?.success){
       Swal.fire({

@@ -2,6 +2,7 @@
 // @ts-nocheck
 "use client";
 import { useGetSingleCartQuery } from "@/app/redux/features/cart/cartApi";
+import { useCreateOrderMutation } from "@/app/redux/features/orders/ordersApi";
 import { useGetSingleProductQuery } from "@/app/redux/features/products/productApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
@@ -9,6 +10,7 @@ import { TCart } from "@/app/types/cart";
 import { TPaymentMethod, TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -19,7 +21,9 @@ const CheckoutRightComp = ({id , from , amount} : {id : string , from : string ,
     const [paymentMethod , setPaymentMethod] = useState<TPaymentMethod>({bkash : false , nagat : false , CashOnDelivery : false}) ;
     const user = useAppSelector((state : RootState) => state?.user) ;
     const {data} = useGetSingleProductQuery(id) ;
+    const [createOrder] = useCreateOrderMutation() ;
     const product : TProduct = data?.data ;
+    const router = useRouter() ;
 
     const handleCashOnDelivery = () => {
         setPaymentMethod({bkash : false , nagat : false , CashOnDelivery : !paymentMethod?.CashOnDelivery}) ;
@@ -42,6 +46,23 @@ const CheckoutRightComp = ({id , from , amount} : {id : string , from : string ,
     }
     
     const handleOrder = async () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); 
+        const day = String(today.getDate()).padStart(2, '0'); 
+        const date = `${year}-${month}-${day}`;
+
+        const orderData = {
+            product : id,
+            userId : user?._id,
+            userEmail : user?.email,
+            userPhone : user?.phone,
+            shippingAddress : user?.address,
+            quantity : Number(amount),
+            deliveryDate : date,
+            paymentMethod : paymentMethod?.CashOnDelivery && "CashOnDelivery" ,
+        }
+
         if(!paymentMethod?.CashOnDelivery && !paymentMethod?.bkash && !paymentMethod?.nagat){
             Swal.fire({
                 title: "Oops!",
@@ -58,13 +79,17 @@ const CheckoutRightComp = ({id , from , amount} : {id : string , from : string ,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, order it"
-            }).then((result) => {
+            }).then(async (result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Ordered!",
-                        text: "Your order has been taken !",
-                        icon: "success"
-                    });
+                    const {data} = await createOrder(orderData) ;
+                    if(data?.success){
+                        router.push('/user/orders') ; 
+                        Swal.fire({
+                            title: "Ordered!",
+                            text: "Your order has been taken !",
+                            icon: "success"
+                        });
+                    }
                 }
             });
         }

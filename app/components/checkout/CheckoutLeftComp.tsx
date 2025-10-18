@@ -8,12 +8,14 @@ import { RootState } from "@/app/redux/store";
 import { TCart } from "@/app/types/cart";
 import { TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TbCurrencyTaka } from "react-icons/tb";
 
 const CheckoutLeftComp = ({id , from , amount} : {id : string , from : string , amount : number}) => {
 
+    const router = useRouter() ;
     const [address , setAddress] = useState("") ;
     const [isOpen , setIsOpen] = useState(false) ;
     const {register , handleSubmit} = useForm() ;
@@ -29,6 +31,12 @@ const CheckoutLeftComp = ({id , from , amount} : {id : string , from : string , 
             setIsOpen(!isOpen) ;
         }
     }
+
+    useEffect(() => {
+        if(!user){
+            return router.push('/login') ;
+        }
+    } , [user])
 
     return (
         <div className="w-full h-[60vh] rounded-md flex flex-col col-span-3">
