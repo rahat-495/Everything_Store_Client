@@ -3,9 +3,9 @@
 "use client"
 import { Button } from "@material-tailwind/react";
 
-const CustomButton = ({children , className}) => {
+const CustomButton = ({children , className , size} : {children : string , className : string , size ?: "sm" | "md" | "lg"}) => {
     return (
-        <Button className={className}>{children}</Button>
+        <Button className={className} size={size}>{children}</Button>
     );
 };
 

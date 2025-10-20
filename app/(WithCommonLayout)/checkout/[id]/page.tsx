@@ -5,7 +5,7 @@ import CheckoutRightComp from "@/app/components/checkout/CheckoutRightComp";
 
 const CheckoutPage = async ({params , searchParams} : {params : {id : string} , searchParams : { from : string , amount : number }}) => {
 
-    const id = await params?.id ;
+    const id = params?.id ;
 
     return (
         <div className="w-full h-screen bg-[#010313] flex items-center justify-center gap-3">
