@@ -9,7 +9,7 @@ const orderApi = baseApi.injectEndpoints({
                 method : "POST" ,
                 body : payload ,
             }) ,
-            invalidatesTags : ['orders'] ,
+            invalidatesTags : ["carts" ,'orders'] ,
         }),
         cancelMyOrder : builders.mutation({
             query : (payload) => ({
@@ -41,9 +41,9 @@ const orderApi = baseApi.injectEndpoints({
             }) ,
             providesTags : ['orders'] ,
         }),
-        getMySingleOrder : builders.query({
+        getSingleOrder : builders.query({
             query : (id) => ({
-                url : `/orders/get-my-order/${id}` ,
+                url : `/orders/${id}` ,
                 method : "GET" ,
             }) ,
             providesTags : ['orders'] ,
@@ -56,6 +56,6 @@ export const {
     useGetAllOrdersQuery , 
     useCancelMyOrderMutation , 
     useGetMyAllOrdersQuery , 
-    useGetMySingleOrderQuery , 
+    useGetSingleOrderQuery , 
     useUpdateOrderStatusMutation 
 } = orderApi ;

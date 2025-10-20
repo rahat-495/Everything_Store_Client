@@ -1,11 +1,12 @@
 
 "use client";
-import { useGetMyAllOrdersQuery } from "@/app/redux/features/orders/ordersApi";
+import { useGetAllOrdersQuery } from "@/app/redux/features/orders/ordersApi";
 import { TOrder } from "@/app/types/order";
 import Link from "next/link";
 
 const OrdersMainComp = () => {
-  const { data } = useGetMyAllOrdersQuery(undefined);
+
+  const { data } = useGetAllOrdersQuery(undefined);
 
   return (
     <div className="grid grid-cols-1 gap-4 p-4 w-full overflow-y-auto scrollbar-hide">

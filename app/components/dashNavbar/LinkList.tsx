@@ -47,7 +47,7 @@ const LinkList = () => {
                 }
             </div>
 
-            <div className={`flex flex-col gap-1 ${user?.role === "admin" ? "mt-0" : "mt-30"}`}>
+            <div className={`flex flex-col gap-1 ${user?.role === "admin" ? "mt-10" : "mt-30"}`}>
                 {
                     linkList2?.map((link) => <Link href={link?.path} key={link?.path} className={`text-xl gro hover:text-purple-300 flex gap-2 text-gray-400 items-center h-9 hover:bg-[#241733] duration-200 ${pathName === link?.path && "bg-[#241733]"} rounded px-3 my-1.5`}> <span className="text-lg">{link?.element}</span> {link?.label}</Link>)
                 } 

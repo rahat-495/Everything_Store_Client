@@ -31,14 +31,14 @@ const cartApi = baseApi.injectEndpoints({
                 url : "/carts" ,
                 method : "GET" ,
             }),
-            providesTags : ["carts"] ,
+            providesTags : ["carts" , "orders"] ,
         }),
         getSingleCart : builders.query({
             query : (params) => ({
                 url : `/carts/${params?.id}` ,
                 method : "GET" ,
             }),
-            providesTags : ["carts"] ,
+            providesTags : ["carts" , "orders"] ,
         }),
     })
 })
