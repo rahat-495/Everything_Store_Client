@@ -2,6 +2,8 @@
 import { TProduct } from "./product";
 import { TFullUser } from "./user";
 
+export type TStatus = "Pending" | "Processing" | "Shipped" | "Out for Delivery" | "Delivered" | "Canceled" | "Returned" | "Refunded";
+
 export interface TOrder {
   _id: string;
   paidStatus: boolean;

@@ -1,4 +1,5 @@
 
+import { TStatus } from "@/app/types/order";
 import { baseApi } from "../../api/baseApi";
 
 const orderApi = baseApi.injectEndpoints({
@@ -20,7 +21,7 @@ const orderApi = baseApi.injectEndpoints({
             invalidatesTags : ['orders'] ,
         }),
         updateOrderStatus : builders.mutation({
-            query : (payload : {body : { "status" : "Processing" } , id : string}) => ({
+            query : (payload : {body : { "status" : TStatus } , id : string}) => ({
                 url : `/orders/update-order-status/${payload?.id}` ,
                 method : "PATCH" ,
                 body : payload?.body ,

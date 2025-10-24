@@ -1,16 +1,21 @@
 // @ts-nocheck
 "use client";
-import { useCancelMyOrderMutation, useGetSingleOrderQuery } from "@/app/redux/features/orders/ordersApi";
+import { useCancelMyOrderMutation, useGetSingleOrderQuery, useUpdateOrderStatusMutation } from "@/app/redux/features/orders/ordersApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import { TOrder } from "@/app/types/order";
+import { TOrder, TStatus } from "@/app/types/order";
 import { Button } from "@material-tailwind/react";
 import Link from "next/link";
+import { useState } from "react";
+import { FaArrowDown } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const OrderDetailsComp = ({ id }: { id: string }) => {
+    
+    const [status , setStatus] = useState<TStatus>("") ;
     const user = useAppSelector((state: RootState) => state.auth.user);
     const [cancelOrder] = useCancelMyOrderMutation();
+    const [updateOrderStatus] = useUpdateOrderStatusMutation();
     const { data, isLoading } = useGetSingleOrderQuery(id);
     const order: TOrder = data?.data;
 
@@ -71,6 +76,27 @@ const OrderDetailsComp = ({ id }: { id: string }) => {
         }
     };
 
+    const handleUpdateStatus = async () => {
+        if(order?.isCancel){
+            document.getElementById('my_modal_1').close() ;
+            Swal.fire({
+                title: "Oops!",
+                text: "User already cancel the order !",
+                icon: "warning"
+            });
+        }
+        
+        const {data} = await updateOrderStatus({body : { status } , id}) ;
+        if(data?.success){
+            document.getElementById('my_modal_1').close() ;
+            Swal.fire({
+                title: "Success!",
+                text: data?.message || "Order status are updated !",
+                icon: "success"
+            });
+        }
+    }
+
     const steps = [
         "Pending",
         "Processing",
@@ -83,28 +109,28 @@ const OrderDetailsComp = ({ id }: { id: string }) => {
 
     return (
         <div className="w-[80%] sm:w-[70%] mx-auto mt-8 min-h-[60vh] rounded-xl bg-[#170F21] border border-purple-900/30 shadow-lg p-6 text-gray-200">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-purple-800/40 pb-4 mb-4">
-                <h1 className="text-2xl font-semibold text-white">Order Details</h1>
-                {
-                    user?.role === "user" ? (
-                        <Button
-                            onClick={handleOrderCancel}
-                            size="sm"
-                            className="bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] rounded-full cursor-pointer text-sm"
-                        >
-                            Cancel
-                        </Button>
-                    ) : (
-                    <Link href={`/updateOrder/${id}`}>
-                        <Button
-                            size="sm"
-                            className="bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] rounded-full cursor-pointer text-sm"
-                            >
-                            Update
-                        </Button>
-                    </Link>
-                )}
-            </div>
+        
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-purple-800/40 pb-4 mb-4">
+            <h1 className="text-2xl font-semibold text-white">Order Details</h1>
+            {
+                user?.role === "user" ? (
+                    <Button
+                        onClick={handleOrderCancel}
+                        size="sm"
+                        className="bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] rounded-full cursor-pointer text-sm"
+                    >
+                        Cancel
+                    </Button>
+                ) : (
+                <Button
+                    onClick={() => document.getElementById('my_modal_1').showModal()}
+                    size="sm"
+                    className="bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] rounded-full cursor-pointer text-sm"
+                    >
+                    Update
+                </Button>
+            )}
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-8 items-start justify-between">
 
@@ -141,6 +167,14 @@ const OrderDetailsComp = ({ id }: { id: string }) => {
                             "Cash On Delivery"}
                         </span>
                     </p>
+                    {
+                        order?.isCancel && user?.role === "user" &&
+                        <p className="text-sm text-red-400">You already cancel it</p> 
+                    }
+                    {
+                        order?.isCancel && user?.role === "admin" &&
+                        <p className="text-sm text-red-400">He already cancel it</p> 
+                    }
                 </div>
             </div>
 
@@ -236,6 +270,34 @@ const OrderDetailsComp = ({ id }: { id: string }) => {
                     </p>
                 </div>
             </div>
+
+            <dialog id="my_modal_1" className="modal">
+                <div className="modal-box flex flex-col items-center text-center">
+                    <h3 className="font-bold text-lg">Update Order Status</h3>
+                    <p className="py-4 flex flex-col items-center gap-1.5">Pending <FaArrowDown /> Processing <FaArrowDown /> Shipped <FaArrowDown /> Out for Delivery <FaArrowDown /> Delivered</p>
+
+                    <div className="flex items-center gap-3">
+                        <select defaultValue={order?.status} onChange={(e) => setStatus(e.target?.value)} className={"bg-[#0f011d60] rounded py-2 "} >
+                            <option value={"Pending"}>Pending</option>
+                            <option value={"Processing"}>Processing</option>
+                            <option value={"Shipped"}>Shipped</option>
+                            <option value={"Out for Delivery"}>Out for Delivery</option>
+                            <option value={"Delivered"}>Delivered</option>
+                            <option value={"Canceled"}>Canceled</option>
+                            <option value={"Returned"}>Returned</option>
+                            <option value={"Refunded"}>Refunded</option>
+                        </select>
+                        <Button onClick={handleUpdateStatus} className="bg-[#1b02276e] rounded py-2 cursor-pointer text-sm">Update</Button>
+                    </div>
+
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <Button type="submit" className="bg-gradient-to-r from-[#C83EEC] to-[#4D57FE] rounded px-16 py-2 cursor-pointer text-sm">Close</Button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+
         </div>
     );
 };

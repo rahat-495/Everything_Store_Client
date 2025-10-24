@@ -1,48 +1,51 @@
 
 "use client";
-import { useGetAllOrdersQuery } from "@/app/redux/features/orders/ordersApi";
+import { useGetAllOrdersQuery, useGetMyAllOrdersQuery } from "@/app/redux/features/orders/ordersApi";
+import { useAppSelector } from "@/app/redux/hooks";
+import { RootState } from "@/app/redux/store";
 import { TOrder } from "@/app/types/order";
 import Link from "next/link";
 
 const OrdersMainComp = () => {
 
-  const { data } = useGetAllOrdersQuery(undefined);
+    const user = useAppSelector((state : RootState) => state.auth.user) ;
+    const { data } = user?.role === "admin" ? useGetAllOrdersQuery(undefined) : useGetMyAllOrdersQuery(undefined) ;
 
-  return (
+    return (
     <div className="grid grid-cols-1 gap-4 p-4 w-full overflow-y-auto scrollbar-hide">
-        {data?.data?.map((order: TOrder) => (
-            <Link 
-                href={`/order/${order?._id}`}
-                key={order._id}
-                className="border border-purple-900/30 rounded-xl shadow-md bg-[#211631] p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center transition hover:shadow-lg hover:border-purple-600/40"
-            >
+            {data?.data?.map((order: TOrder) => (
+                <Link 
+                    href={`/order/${order?._id}`}
+                    key={order._id}
+                    className="border border-purple-900/30 rounded-xl shadow-md bg-[#211631] p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center transition hover:shadow-lg hover:border-purple-600/40"
+                >
 
-                <div className="flex items-start gap-4 w-full sm:w-auto">
-                    <img
-                    src={order.product.image}
-                    alt={order.product.title}
-                    className="w-20 h-20 object-cover rounded-lg border border-purple-900/50"
-                    />
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-100">
-                            {order.product.title}
-                        </h2>
-                        <p className="text-sm text-gray-300">
-                            ৳ {order.totalPrice}
-                        </p>
-                        <p className="text-sm text-gray-400 mt-1">
-                            Qty:{" "}
-                            <span className="text-gray-200 font-semibold">
-                            {order.quantity}
-                            </span>
-                        </p>
-                        {order.product.category && (
-                            <p className="text-xs text-gray-500 mt-1">
-                            Category: {order.product.category}
+                    <div className="flex items-start gap-4 w-full sm:w-auto">
+                        <img
+                        src={order.product.image}
+                        alt={order.product.title}
+                        className="w-20 h-20 object-cover rounded-lg border border-purple-900/50"
+                        />
+                        <div>
+                            <h2 className="text-lg font-semibold text-gray-100">
+                                {order.product.title}
+                            </h2>
+                            <p className="text-sm text-gray-300">
+                                ৳ {order.totalPrice}
                             </p>
-                        )}
+                            <p className="text-sm text-gray-400 mt-1">
+                                Qty:{" "}
+                                <span className="text-gray-200 font-semibold">
+                                {order.quantity}
+                                </span>
+                            </p>
+                            {order.product.category && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                Category: {order.product.category}
+                                </p>
+                            )}
+                        </div>
                     </div>
-                </div>
 
                     <div className="flex flex-col sm:items-end gap-2 mt-3 sm:mt-0 w-full sm:w-auto">
                         {
@@ -54,6 +57,7 @@ const OrdersMainComp = () => {
                                     order.status === "Returned" && "bg-red-900/30 text-red-400" ||
                                     order.status === "Pending" && "bg-yellow-900/30 text-yellow-300" ||
                                     order.status === "Processing" && "bg-yellow-900/50 text-yellow-500" ||
+                                    order.status === "Out for Delivery" && "bg-blue-900/50 text-blue-600" ||
                                     order.status === "Shipped" && "bg-blue-900/30 text-blue-300" ||
                                     order.status === "Refunded" && "bg-blue-900/30 text-blue-300" 
                                 }`}
