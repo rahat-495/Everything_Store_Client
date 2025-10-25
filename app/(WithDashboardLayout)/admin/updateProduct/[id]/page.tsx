@@ -2,9 +2,9 @@
 import UpdateProductForm from "@/app/components/updateProduct/UpdateProductForm";
 import getSingleProduct from "@/app/utils/products/getSingleProduct";
 
-const UpdateProductPage = async ({params} : { params : {id : string} }) => {
+const UpdateProductPage = async ({params} : { params : Promise<{id : string}> }) => {
     
-    const {id} = params ;
+    const {id} = await params ;
     const response = await getSingleProduct(id);
     const product = response?.data;
 

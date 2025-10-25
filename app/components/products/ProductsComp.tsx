@@ -4,7 +4,7 @@ import { TProduct } from "@/app/types/product";
 import ProductComp from "./ProductComp";
 
 const ProductsComp = ({data} : {data : TProduct[]}) => {
-console.log(data);
+
     return (
         <div className="w-[80%] grid grid-cols-6 gap-5">    
                 

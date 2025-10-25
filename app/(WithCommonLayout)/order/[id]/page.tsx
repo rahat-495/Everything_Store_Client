@@ -2,9 +2,9 @@
 "use server";
 import OrderDetailsComp from "@/app/components/order/OrderDetailsComp";
 
-const OrderDetailsPage = async ({params} : {params : {id : string}}) => {
+const OrderDetailsPage = async ({params} : {params : Promise<{ id: string }>}) => {
 
-    const id = params?.id ;
+    const {id} = await params ;
 
     return (
         <div className="w-full h-screen bg-[#010313] flex items-center justify-center gap-3">

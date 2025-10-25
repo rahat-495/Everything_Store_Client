@@ -2,9 +2,10 @@
 import ProductDetailsLastSec from "@/app/components/productDetails/ProductDetailsLastSec";
 import getSingleProduct from "@/app/utils/products/getSingleProduct";
 
-const ProductDetailsPage = async ({ params , searchParams }: { params: { id: string } , searchParams : {quantity : number} }) => {
+const ProductDetailsPage = async ({ params , searchParams }: { params : Promise<{ id: string }> , searchParams : Promise<{quantity : number}> }) => {
   
   const { id } = await params;
+  const {quantity} = await searchParams ;
   const response = await getSingleProduct(id);
   const product = response?.data;
 
@@ -60,10 +61,10 @@ const ProductDetailsPage = async ({ params , searchParams }: { params: { id: str
               {product?.quantity}
             </p>
             {
-              searchParams?.quantity &&
+              quantity &&
               <p>
                 <span className="font-semibold text-[#C83EEC]">Your cart:</span>{" "}
-                {searchParams?.quantity}
+                {quantity}
               </p>
             }
           </div>
