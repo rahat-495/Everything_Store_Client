@@ -72,7 +72,7 @@ const OrdersMainComp = () => {
                         </p>
 
                         <p className="text-xs text-gray-500">
-                            {new Date(order.createdAt).toLocaleDateString()}
+                            {new Date(order?.createdAt).toLocaleDateString()}
                         </p>
                     </div>
                 </Link>
