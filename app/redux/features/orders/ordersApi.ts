@@ -49,12 +49,20 @@ const orderApi = baseApi.injectEndpoints({
             }) ,
             providesTags : ['orders'] ,
         }),
+        getMyHistory : builders.query({
+            query : () => ({
+                url : `/orders/get-my-history` ,
+                method : "GET" ,
+            }) ,
+            providesTags : ['orders'] ,
+        }),
     })
 })
 
 export const { 
     useCreateOrderMutation , 
     useGetAllOrdersQuery , 
+    useGetMyHistoryQuery ,
     useCancelMyOrderMutation , 
     useGetMyAllOrdersQuery , 
     useGetSingleOrderQuery , 
