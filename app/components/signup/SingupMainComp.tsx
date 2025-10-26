@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { LuEyeClosed } from "react-icons/lu";
 import { LuEye } from "react-icons/lu";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useSignupMutation } from "@/app/redux/features/auth/authApi";
@@ -14,13 +14,16 @@ import { setUser } from "@/app/redux/features/auth/authSlice";
 
 const SingupMainComp = () => {
     const router = useRouter() ;
-    const searchParams = useSearchParams() ;
-    const redirect = searchParams.get("redirectPath") ;
     const {register , handleSubmit} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch() ;
     const user = useAppSelector((state : RootState) => state.auth.user) ;
     const [signup] = useSignupMutation() ;
+    let redirect = null;
+
+    if (typeof window !== "undefined") {
+        redirect = new URLSearchParams(window.location.search).get("redirectPath");
+    }
 
     const onSubmit = async (data : any) => {
         try {

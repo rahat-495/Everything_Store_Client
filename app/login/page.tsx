@@ -1,13 +1,11 @@
 
-"use client"
-import { Suspense } from "react";
 import LoginMainComp from "../components/login/LoginMainComp";
 
 const loginPage = () => {
     return (
-        <Suspense>
+        <div className="">
             <LoginMainComp />
-        </Suspense>
+        </div>
     );
 };
 

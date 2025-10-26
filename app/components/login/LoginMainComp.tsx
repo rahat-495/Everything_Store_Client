@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { RootState } from "@/app/redux/store";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useLoginMutation } from "@/app/redux/features/auth/authApi";
@@ -15,11 +15,14 @@ const LoginMainComp = () => {
     const router = useRouter() ;
     const {register , handleSubmit} = useForm();
     const user = useAppSelector((state : RootState) => state.auth.user) ;
-    const searchParams = useSearchParams() ;
-    const redirect = searchParams.get("redirectPath") ;
     const dispatch = useAppDispatch() ;
     const [showPassword, setShowPassword] = useState(false);
     const [login] = useLoginMutation() ;
+    let redirect = null;
+
+    if (typeof window !== "undefined") {
+        redirect = new URLSearchParams(window.location.search).get("redirectPath");
+    }
 
     const onSubmit = async (data : any) => {
         
