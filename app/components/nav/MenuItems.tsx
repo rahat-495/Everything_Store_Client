@@ -1,6 +1,5 @@
 
 // @ts-nocheck
-import { TUser } from "@/app/redux/features/auth/authSlice";
 import {
     Button,
     Menu,
@@ -13,8 +12,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CgLogOut } from "react-icons/cg";
 import MenuLinks from "./MenuLinks";
+import { TFullUser } from "@/app/types/user";
 
-const MenuItems = ({user , handleLogout} : {user : TUser , handleLogout : any}) => {
+const MenuItems = ({user , handleLogout} : {user : TFullUser , handleLogout : any}) => {
 
     const [open, setOpen] = useState(false);
 

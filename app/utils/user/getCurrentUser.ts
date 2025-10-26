@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 export const getCurrentUser = async () => {
     const accessToken = (await cookies()).get("accessToken")?.value ;
     let decodedUser = null ;
-
+    
     if(accessToken){
         decodedUser = await jwtDecode(accessToken) ;
         return decodedUser ;
@@ -14,5 +14,9 @@ export const getCurrentUser = async () => {
     else {
         return null ;
     }
-
 }
+
+export const getAccessToken = async () => {
+    const accessToken = (await cookies()).get("accessToken")?.value ;
+    return accessToken ;
+}   
