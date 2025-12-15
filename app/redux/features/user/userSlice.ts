@@ -1,40 +1,42 @@
+import { createSlice } from "@reduxjs/toolkit";
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface TUser {
-  _id: string;
-  name: {
-    firstName: string;
-    lastName: string;
-    _id: string;
-  };
-  image: string;
-  email: string;
-  phone: string;
-  address: string;
-  isActive: boolean;
-  role: string;
-  createdAt: string;
-  updatedAt: string;
+export type TName = {
+  _id?: string;
+  firstName: string;
+  lastName: string;
 }
 
-const initialState: { user : null | TUser } = {
-  user : null ,
+export type TUser = {
+  _id: string;
+  name : TName ;
+  image : string ;
+  address : string ;
+  email: string;
+  phone : number ;
+  role: string;
+};
+
+type TAuthState = {
+  user: null | TUser;
+};
+
+const initialState: TAuthState = {
+  user: null,
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
   reducers: {
-    setUserFor: (state, action) => {
-      const { user } = action?.payload;
-      return state.user = user;
+    setUserForNavbar: (state, action) => {
+      const { user } = action.payload;
+      state.user = user;
     },
-    logoutUserForN : (state) => {
-      state.user = null ;
+    logoutForNavbar: (state) => {
+      state.user = null;
     },
   },
 });
 
-export const { setUserFor , logoutUserForN } = userSlice.actions;
 export default userSlice.reducer;
+export const { setUserForNavbar, logoutForNavbar } = userSlice.actions;

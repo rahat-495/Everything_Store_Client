@@ -10,7 +10,7 @@ const userApi = baseApi.injectEndpoints({
             }),
             providesTags : ['users'] ,
         }),
-        updateAddress : builders.mutation({
+        updateProfile : builders.mutation({
             query : (payload) => ({
                 url : "/users/updateProfile",
                 method : "PATCH" ,
@@ -21,4 +21,4 @@ const userApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetMyDataQuery , useUpdateAddressMutation } = userApi ;
+export const { useGetMyDataQuery , useUpdateProfileMutation } = userApi ;

@@ -13,14 +13,15 @@ import MenuItems from "./MenuItems";
 import NavAuthLinks from "./NavAuthLinks";
 import { TFullUser } from "@/app/types/user";
 import { RootState } from "@/app/redux/store";
+import { logoutForNavbar, setUserForNavbar } from "@/app/redux/features/user/userSlice";
 
 
 const NavbarMainComp = ({token , user} : {token ?: string , user : TFullUser}) => {
-    
+
     const location = usePathname() ;
     const dispatch = useAppDispatch() ;
     const [logoutUser] = useLogoutMutation() ;
-    const currentUserData = useAppSelector((state : RootState) => state.auth.user) ;
+    const currentUserData = useAppSelector((state : RootState) => state.user.user) ;
 
     const linkLists = [
         { name: "Home", href: "/" },
@@ -29,13 +30,10 @@ const NavbarMainComp = ({token , user} : {token ?: string , user : TFullUser}) =
         { name: "Contact", href: "/contact" },
     ]
 
-    useEffect(() => {
-        dispatch(setUser({user , token})) ;
-    } , [user , token])
-
     const handleLogout = async () => {
         await logoutUser({}) ;
         dispatch(logout()) ;
+        dispatch(logoutForNavbar()) ;
     }
 
     return (
@@ -58,7 +56,7 @@ const NavbarMainComp = ({token , user} : {token ?: string , user : TFullUser}) =
 
                 {
                     currentUserData ? 
-                    <MenuItems user={user} handleLogout={handleLogout}/> :
+                    <MenuItems user={currentUserData} handleLogout={handleLogout}/> :
                     <NavAuthLinks />
                 }
 

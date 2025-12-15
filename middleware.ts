@@ -21,14 +21,14 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  if(userInfo?._doc?.role && roleBasedPrivateRoutes[userInfo?._doc?.role as TRole]){
-    const routes = roleBasedPrivateRoutes[userInfo?._doc?.role as TRole] ;
+  if(userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as TRole]){
+    const routes = roleBasedPrivateRoutes[userInfo?.role as TRole] ;
     if(routes.some((route) => pathname.match(route))){
       return NextResponse.next() ;
     }
   }
   
-  if(userInfo?._doc?.role === 'user' && pathname?.includes("/checkout")){
+  if(userInfo?.role === 'user' && pathname?.includes("/checkout")){
     return NextResponse.next() ;
   }
 

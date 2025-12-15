@@ -1,6 +1,8 @@
 
 "use client" ;
 import { setUser } from "@/app/redux/features/auth/authSlice";
+import { useUpdateProfileMutation } from "@/app/redux/features/user/userApi";
+import { setUserForNavbar } from "@/app/redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
 import updateProfileInfo from "@/app/utils/auth/updateProfileInfo";
@@ -25,6 +27,7 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
     const [isDisabled , setIsDisabled] = useState(false) ;
     const [imageLink , setImageLink] = useState("") ;
     const dispatch = useAppDispatch() ;
+    const [updateProfile] = useUpdateProfileMutation() ;
     
     const onSubmit = async (data : any) => {
         const formData = new FormData();
@@ -39,7 +42,7 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
         if(imageData?.data?.url){
             setImageLink(imageData?.data?.url) ;
         }
-
+        
         const updatedProfilData = { name : {firstName : data?.firstName , lastName : data?.lastName} , email : data?.email , address : data?.address , image : imageData?.data?.url } ;
         const result = await updateProfileInfo(updatedProfilData) ;
 
@@ -50,24 +53,24 @@ const UpdateProfileInfoForm = ({setClick , click} : {setClick : any , click : an
                 icon: "success"
             });
             dispatch(setUser({ user : result?.data , token })) ;
+            dispatch(setUserForNavbar({ user : result?.data })) ;
             setClick(!click) ;
         }
         else{
             Swal.fire({
                 title: "Oops!",
-                text: data?.message || "Something went wrong during updating profile !",
+                text: data?.data?.message || "Something went wrong during updating profile !",
                 icon: "error"
             });
         }
     }
 
     useEffect(() => {
-
-        if(firstName === user?.name?.firstName || lastName === user?.name?.lastName || email === user?.email || address === user?.address){
+        if(firstName === user?.name?.firstName && lastName === user?.name?.lastName && email === user?.email && address === user?.address){
             setIsDisabled(true) ;
         }
         else{
-            setIsDisabled(false)
+            setIsDisabled(false) ;
         }
 
     } , [firstName , lastName , email , address , imagePreview])

@@ -7,7 +7,7 @@ const Navbar = async () => {
     const user = await getCurrentUser() ;
     return (
         <div className="">
-            <NavbarMainComp token={token} user={user?._doc}/>
+            <NavbarMainComp token={token} user={user}/>
         </div>
     )
 };

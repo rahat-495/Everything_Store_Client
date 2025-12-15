@@ -10,6 +10,7 @@ import { RootState } from "@/app/redux/store";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useLoginMutation } from "@/app/redux/features/auth/authApi";
 import { setUser } from "@/app/redux/features/auth/authSlice";
+import { setUserForNavbar } from "@/app/redux/features/user/userSlice";
 
 const LoginMainComp = () => {
     const router = useRouter() ;
@@ -29,8 +30,10 @@ const LoginMainComp = () => {
         try {
             
             const res = await login(data).unwrap() ;
+            console.log(res);
             if(res?.success){
                 dispatch(setUser({ user : res?.data?.user , token : res?.data?.accessToken })) ;
+                dispatch(setUserForNavbar({ user : res?.data?.user })) ;
                 toast.success(res?.message , {duration : 1000 , position : "top-center"}) ;
                 setTimeout(() => {
                     if(redirect){

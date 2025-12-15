@@ -2,10 +2,9 @@
 // @ts-nocheck
 "use client";
 import { useGetSingleProductQuery } from "@/app/redux/features/products/productApi";
-import { useUpdateAddressMutation } from "@/app/redux/features/user/userApi";
+import { useUpdateProfileMutation } from "@/app/redux/features/user/userApi";
 import { useAppSelector } from "@/app/redux/hooks";
 import { RootState } from "@/app/redux/store";
-import { TCart } from "@/app/types/cart";
 import { TProduct } from "@/app/types/product";
 import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
@@ -19,8 +18,8 @@ const CheckoutLeftComp = ({id , from , amount} : {id : string , from : string , 
     const [address , setAddress] = useState("") ;
     const [isOpen , setIsOpen] = useState(false) ;
     const {register , handleSubmit} = useForm() ;
-    const user = useAppSelector((state : RootState) => state?.user) ;
-    const [updateAddress] = useUpdateAddressMutation() ;
+    const user = useAppSelector((state : RootState) => state?.user?.user) ;
+    const [updateAddress] = useUpdateProfileMutation() ;
     const {data} = useGetSingleProductQuery(id) ;
     const product : TProduct = data?.data ;
 
