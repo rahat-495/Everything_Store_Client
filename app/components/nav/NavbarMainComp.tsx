@@ -4,31 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/Images/logo.png";
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useLogoutMutation } from "@/app/redux/features/auth/authApi";
 import { logout } from "@/app/redux/features/auth/authSlice";
-import { setUser } from "@/app/redux/features/auth/authSlice";
 import MenuItems from "./MenuItems";
 import NavAuthLinks from "./NavAuthLinks";
-import { TFullUser } from "@/app/types/user";
 import { RootState } from "@/app/redux/store";
-import { logoutForNavbar, setUserForNavbar } from "@/app/redux/features/user/userSlice";
+import { logoutForNavbar } from "@/app/redux/features/user/userSlice";
 
+const linkLists = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+]
 
-const NavbarMainComp = ({token , user} : {token ?: string , user : TFullUser}) => {
+const NavbarMainComp = () => {
 
     const location = usePathname() ;
     const dispatch = useAppDispatch() ;
     const [logoutUser] = useLogoutMutation() ;
     const currentUserData = useAppSelector((state : RootState) => state.user.user) ;
-
-    const linkLists = [
-        { name: "Home", href: "/" },
-        { name: "Products", href: "/products" },
-        { name: "About", href: "/about" },
-        { name: "Contact", href: "/contact" },
-    ]
 
     const handleLogout = async () => {
         await logoutUser({}) ;
